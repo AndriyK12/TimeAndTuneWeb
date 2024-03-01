@@ -1,5 +1,10 @@
 # Time&Tune
 
+Team:
+Huliak Nazarii
+Katsma Andriy
+Mikhailova Olena
+
 Time & Tune is an app that helps users manage their time effectively. It provides a wide range of features including time tracking, goal setting, and focusing.
 
 Features:
@@ -27,6 +32,11 @@ Use Time & Tune app today and start managing your time more efficiently!
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 UA
+
+Команда:
+Гуляк Назар
+Кацьма Андрій
+Міхайлова Олена
 
 Time & Tune - це додаток, який допомагає користувачам ефективно керувати своїм часом. Він надає широкий спектр функцій, включаючи відстеження часу, постановку цілей та фокусування.
 
