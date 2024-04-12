@@ -5,7 +5,13 @@ VisualStudioVersion = 17.9.34701.34
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeAndTuneWeb", "TimeAndTuneWeb\TimeAndTuneWeb.csproj", "{00C2AE3F-230D-45CE-BFA5-686E8EA7F8A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EF", "EF\EF.csproj", "{AA7B8711-9F74-47D2-97C1-E40521BE59A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EF", "EF\EF.csproj", "{AA7B8711-9F74-47D2-97C1-E40521BE59A3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BAL", "BAL", "{0BD8F107-E8E4-4819-84EA-66E2FA09C24F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DAL", "DAL", "{75C8FF9D-39F4-42C3-BB40-2C16D93B5BA7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Controller", "Controller", "{E46D9E60-59B3-482C-9728-A7096E19C8FD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +30,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AA7B8711-9F74-47D2-97C1-E40521BE59A3} = {75C8FF9D-39F4-42C3-BB40-2C16D93B5BA7}
+		{E46D9E60-59B3-482C-9728-A7096E19C8FD} = {0BD8F107-E8E4-4819-84EA-66E2FA09C24F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D848882E-BEDD-4504-8140-808E0EA92578}
