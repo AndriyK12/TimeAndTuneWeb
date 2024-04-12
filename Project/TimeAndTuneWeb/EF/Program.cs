@@ -1,14 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Npgsql;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
-namespace EFCore
+﻿namespace EFCore
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using Microsoft.EntityFrameworkCore;
+    using Npgsql;
+
     internal class Program
     {
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             using (var context = new TTContext())
             {
@@ -26,6 +26,7 @@ namespace EFCore
                     Console.WriteLine($" User ID: {user.Userid},\n Username: {user.Username},\n Email {user.Email},\n Coins amout: {user.Coinsamount},\n Password: {user.Password}");
                     Console.WriteLine("===================================================================================");
                 }
+
                 foreach (var task in allTasks)
                 {
                     Console.WriteLine("===================================================================================");

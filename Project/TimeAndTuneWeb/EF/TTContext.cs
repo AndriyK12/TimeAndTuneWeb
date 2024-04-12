@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿// <copyright file="TTContext.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
+using Microsoft.EntityFrameworkCore;
 
 namespace EFCore;
 
@@ -11,7 +11,9 @@ public static class DotEnv
     public static void Load(string filePath)
     {
         if (!File.Exists(filePath))
+        {
             return;
+        }
 
         foreach (var line in File.ReadAllLines(filePath))
         {
@@ -19,7 +21,9 @@ public static class DotEnv
                 '=',
                 StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length != 2)
+            {
                 continue;
+            }
 
             Environment.SetEnvironmentVariable(parts[0], parts[1]);
         }
@@ -28,11 +32,18 @@ public static class DotEnv
 
 public partial class TTContext : DbContext
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TTContext"/> class.
+    /// </summary>
     public TTContext()
     {
 
     }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="TTContext"/> class.
+    /// </summary>
+    /// <param name="options"></param>
     public TTContext(DbContextOptions<TTContext> options)
         : base(options)
     {
@@ -110,7 +121,7 @@ public partial class TTContext : DbContext
                 .HasColumnName("username");
         });
 
-        OnModelCreatingPartial(modelBuilder);
+        this.OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

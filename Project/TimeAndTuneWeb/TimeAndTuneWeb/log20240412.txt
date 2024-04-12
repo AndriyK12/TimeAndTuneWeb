@@ -1,0 +1,11 @@
+2024-04-12 13:39:27.848 +03:00 [INF] Starting application
+2024-04-12 13:39:30.226 +03:00 [INF] Executing endpoint 'TimeAndTuneWeb.Controllers.HomeController.Index (TimeAndTuneWeb)'
+2024-04-12 13:39:30.315 +03:00 [INF] Executing ViewResult, running view Index.
+2024-04-12 13:39:30.548 +03:00 [INF] Executed ViewResult - view Index executed in 240.6909ms.
+2024-04-12 13:39:30.554 +03:00 [INF] Executed endpoint 'TimeAndTuneWeb.Controllers.HomeController.Index (TimeAndTuneWeb)'
+2024-04-12 13:39:30.603 +03:00 [INF] The file /TimeAndTuneWeb.styles.css was not modified
+2024-04-12 13:39:30.603 +03:00 [INF] The file /lib/bootstrap/dist/css/bootstrap.min.css was not modified
+2024-04-12 13:39:30.603 +03:00 [INF] The file /lib/jquery/dist/jquery.min.js was not modified
+2024-04-12 13:39:30.603 +03:00 [INF] The file /css/site.css was not modified
+2024-04-12 13:39:30.603 +03:00 [INF] The file /lib/bootstrap/dist/js/bootstrap.bundle.min.js was not modified
+2024-04-12 13:39:30.604 +03:00 [INF] The file /js/site.js was not modified
