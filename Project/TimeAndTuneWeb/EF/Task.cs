@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace EFCore;
+﻿namespace EFCore;
 
 public partial class Task
 {
