@@ -94,20 +94,113 @@
             font-size: 16px;
         }
 
+        .container {
+            margin: 0;
+            padding: 0;
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .navTab {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #4E4747;
+            width: 500px;
+            height: 100vh;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navItem {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .navTabImg {
+            margin-left: 60px;
+            margin-top: 40px;
+            width: 80px;
+            height: 80px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .navItem span {
+            margin-left: 35px;
+            margin-top: 40px;
+            color: #FFFFFF;
+            font-size: 36px;
+        }
+
+        .alphaCoverage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: black;
+            opacity: 0.55;
+            z-index: 2;
+        }
+
+        .copyright {
+            position: absolute;
+            color: #FFFFFF;
+            font-size: 36px;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            width: 100%;
+            z-index: 4;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
         
     </style>
 </head>
 
 <body>
-    <div class="header">
-        <div class="menu-icon" onclick="openNavigation()">
-            <img src="~/images/menu_icon.png" alt="Menu Icon" />
+    <div class="container">
+        <div class="navTab hidden" id="NavTab">
+            <div class="navItem">
+                <img class="navTabImg" src="~/images/home_image.png" alt="Home Icon" />
+                <span>Home</span>
+            </div>
+            <div class="navItem">
+                <img class="navTabImg" src="~/images/statistics_image.png" alt="Statistics Icon" />
+                <span>Statistics</span>
+            </div>
+            <div class="navItem">
+                <img class="navTabImg" src="~/images/focus_image.png" alt="Focus Icon" />
+                <span>Focus</span>
+            </div>
+            <div class="copyright">
+                <span>© Time&amp;Tune</span>
+            </div>
         </div>
-        <div class="page-title-container">
-            <div class="page-title">Home</div>
-        </div>
-        <div class="user-icon" onclick="openUserInfo()">
-            <img src="~/images/user_image.png" alt="User Icon" />
+        <div class="alphaCoverage hidden" id="coverage" onclick="toggleVisibility()"></div>
+
+        <div class="header">
+            <div class="menu-icon" onclick="openNavigation()">
+                <img src="~/images/menu_icon.png" alt="Menu Icon" onclick="toggleVisibility()" />
+            </div>
+            <div class="page-title-container">
+                <div class="page-title">Home</div>
+            </div>
+            <div class="user-icon" onclick="openUserInfo()">
+                <img src="~/images/user_image.png" alt="User Icon" />
+            </div>
         </div>
     </div>
 
@@ -132,6 +225,28 @@
         function openUserInfo() {
             // Реалізуйте відкриття інформації про користувача
         }
+
+        function toggleVisibility() {
+            var NavTab = document.getElementById('NavTab');
+            var coverage = document.getElementById('coverage');
+
+            if (NavTab.classList.contains('hidden')) {
+                NavTab.classList.remove('hidden');
+                NavTab.classList.add('visible');
+            } else {
+                NavTab.classList.remove('visible');
+                NavTab.classList.add('hidden');
+            }
+
+            if (coverage.classList.contains('hidden')) {
+                coverage.classList.remove('hidden');
+                coverage.classList.add('visible');
+            } else {
+                coverage.classList.remove('visible');
+                coverage.classList.add('hidden');
+            }
+        }
     </script>
+
 </body>
 </html>
