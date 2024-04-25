@@ -9,6 +9,20 @@
   "settings": {
     "documentationRules": {
       "companyName": "PlaceholderCompany"
+    },
+    "namingRules": {
+      "defaultRules": "camelCase",
+      "rules": {
+        "camelCase": {
+          "allowedPrefixes": "",
+          "allowedSuffixes": "",
+          "requiredPrefixes": "",
+          "requiredSuffixes": "",
+          "wordSeparator": "None",
+          "capitalization": "camelCase",
+          "allowedSymbols": ""
+        }
+      }
     }
   }
 }

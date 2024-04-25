@@ -399,3 +399,5 @@ FodyWeavers.xsd
 /Project/TimeAndTuneWeb/EF/SensitiveInfo.env
 /Project/TimeAndTuneWeb/Test_Project/SensitiveInfo.env
 /Project/TimeAndTuneWeb/TestProject/SensitiveInfo.env
+/Project/TimeAndTuneWeb/TestProject/SensitiveInfo.env
+/Project/TimeAndTuneWeb/TimeAndTuneWeb/SensitiveInfo.env

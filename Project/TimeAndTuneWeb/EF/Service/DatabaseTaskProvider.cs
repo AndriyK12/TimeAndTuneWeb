@@ -1,11 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EFCore.Service
+﻿namespace EFCore.Service
 {
     public class DatabaseTaskProvider : ITaskProvider
     {
@@ -62,7 +55,7 @@ namespace EFCore.Service
                 var dateTasksAmount = 0;
                 foreach (var task in allTasks)
                 {
-                    if (task.Finishtime == date && getCompleted(task))
+                    if (task.Finishtime == date && this.getCompleted(task))
                     {
                         if (task.Useridref == userID)
                         {
@@ -150,7 +143,7 @@ namespace EFCore.Service
         {
             using (var context = new TTContext())
             {
-                Task? task = getTaskById(id);
+                Task? task = this.getTaskById(id);
                 task.Name = newName;
                 task.Description = newDesc;
                 DateOnly.TryParse(newDate, out DateOnly dateOnly);
@@ -165,7 +158,7 @@ namespace EFCore.Service
         {
             using (var context = new TTContext())
             {
-                Task task = getTaskById(id);
+                Task task = this.getTaskById(id);
                 task.Executiontime = time;
                 task.Completed = finished;
                 task.Finishtime = DateOnly.FromDateTime(DateTime.Now);
@@ -176,7 +169,7 @@ namespace EFCore.Service
 
         public List<Task> getAllSpecificTaskByUserId(int userID)
         {
-            List<EFCore.Task> items = GetAllTasksByUserID(userID);
+            List<EFCore.Task> items = this.GetAllTasksByUserID(userID);
             DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);
 
             List<Task> tasks = items
@@ -189,7 +182,7 @@ namespace EFCore.Service
 
         public List<Task> getAllTasksByDayUsingUserId(int userID)
         {
-            List<EFCore.Task> items = GetAllTasksByUserID(userID);
+            List<EFCore.Task> items = this.GetAllTasksByUserID(userID);
             DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);
             List<Task> tasks = items
                 .Where(task => (task.Expectedfinishtime < currentDate &&
@@ -201,7 +194,7 @@ namespace EFCore.Service
 
         public List<Task> getAllTasksByWeekUsingUserId(int userID)
         {
-            List<EFCore.Task> items = GetAllTasksByUserID(userID);
+            List<EFCore.Task> items = this.GetAllTasksByUserID(userID);
             DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);
 
             int currentDayOfWeek = (int)currentDate.DayOfWeek;
@@ -216,13 +209,13 @@ namespace EFCore.Service
 
         public List<Task> getAllTasksByMonthUsingUserId(int userID)
         {
-            List<EFCore.Task> items = GetAllTasksByUserID(userID);
+            List<EFCore.Task> items = this.GetAllTasksByUserID(userID);
 
             DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);
             DateOnly endOfMonthDate = new DateOnly(currentDate.Year, currentDate.Month, DateTime.DaysInMonth(currentDate.Year, currentDate.Month));
 
             List<Task> tasks = items
-                .Where(task => task.Expectedfinishtime >= currentDate && 
+                .Where(task => task.Expectedfinishtime >= currentDate &&
                 task.Expectedfinishtime <= endOfMonthDate).ToList();
 
             return tasks;

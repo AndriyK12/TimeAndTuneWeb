@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EFCore.Service
+﻿namespace EFCore.Service
 {
-    internal interface IUserProvider
+    public interface IUserProvider
     {
         int getUserID(User user);
 

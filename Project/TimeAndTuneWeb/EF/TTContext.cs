@@ -12,6 +12,35 @@ public static class DotEnv
     {
         if (!File.Exists(filePath))
         {
+            try
+            {
+                string currentDirectory = Directory.GetCurrentDirectory();
+                string path = Path.Combine(currentDirectory, "SensitiveInfo.env");
+                if (!File.Exists(path))
+                {
+                    return;
+                }
+
+                else
+                {
+                    foreach (var line in File.ReadAllLines(path))
+                    {
+                        var parts = line.Split(
+                            '=',
+                            StringSplitOptions.RemoveEmptyEntries);
+                        if (parts.Length != 2)
+                        {
+                            continue;
+                        }
+
+                        Environment.SetEnvironmentVariable(parts[0], parts[1]);
+                    }
+                }
+            }
+            catch
+            {
+                return;
+            }
             return;
         }
 
@@ -28,6 +57,7 @@ public static class DotEnv
             Environment.SetEnvironmentVariable(parts[0], parts[1]);
         }
     }
+
 }
 
 public partial class TTContext : DbContext

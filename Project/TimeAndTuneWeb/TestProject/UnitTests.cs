@@ -1,7 +1,5 @@
-using EFCore;
 using EFCore.Service;
 using Newtonsoft.Json;
-using Faker;
 
 namespace TestProject
 {

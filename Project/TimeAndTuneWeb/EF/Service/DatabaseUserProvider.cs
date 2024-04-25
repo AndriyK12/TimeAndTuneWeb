@@ -1,11 +1,4 @@
-﻿using BCrypt.Net;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EFCore.Service
+﻿namespace EFCore.Service
 {
     public class DatabaseUserProvider : IUserProvider
     {
@@ -30,12 +23,13 @@ namespace EFCore.Service
                 var allUsers = context.Users.ToList();
                 foreach (User u in allUsers)
                 {
-                    if (getEmail(u) == email)
+                    if (this.getEmail(u) == email)
                     {
                         user = u;
                     }
                 }
             }
+
             return user;
         }
 
@@ -66,7 +60,7 @@ namespace EFCore.Service
 
         public bool isUserAlreadyExist(string email)
         {
-            User user = getUserByEmail(email);
+            User user = this.getUserByEmail(email);
             if (user.Email != null)
             {
                 return true;
@@ -85,11 +79,12 @@ namespace EFCore.Service
                 var allUsers = context.Users.ToList();
                 foreach (User u in allUsers)
                 {
-                    if (getUserID(u) == id)
+                    if (this.getUserID(u) == id)
                     {
                         user = u;
                     }
                 }
+
                 user.Coinsamount += coinsAmount;
                 context.SaveChanges();
             }
