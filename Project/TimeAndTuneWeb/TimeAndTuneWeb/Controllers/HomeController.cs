@@ -1,16 +1,31 @@
 namespace TimeAndTuneWeb.Controllers
 {
     using System.Diagnostics;
+    using EFCore.Service;
     using Microsoft.AspNetCore.Mvc;
     using TimeAndTuneWeb.Models;
 
-    public class HomeController(ILogger<HomeController> logger) : Controller
+    public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> logger = logger;
+        private readonly ILogger<HomeController> _logger;
+        private readonly ITaskProvider _taskProvider;
+
+        public HomeController(ILogger<HomeController> logger, ITaskProvider taskProvider)
+        {
+            _logger = logger;
+            _taskProvider = taskProvider;
+        }
 
         public IActionResult Index()
         {
-            return this.View();
+            var task = _taskProvider.getTaskById(1);
+            if (task == null)
+            {
+                return NotFound();
+            }
+
+            return View(task);
+            
         }
 
         public IActionResult Privacy()

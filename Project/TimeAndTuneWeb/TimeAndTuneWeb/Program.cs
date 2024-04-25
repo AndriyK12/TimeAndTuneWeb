@@ -8,13 +8,9 @@ namespace TimeAndTuneWeb
         public static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Information()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-                .Enrich.FromLogContext()
+    .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
 
-                // .WriteTo.Logger // Виведення логів в консоль
-                .WriteTo.File("log-{Date}.txt", rollingInterval: RollingInterval.Day)
-                .CreateLogger();
 
             try
             {

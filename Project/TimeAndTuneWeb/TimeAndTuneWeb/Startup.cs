@@ -1,5 +1,6 @@
 ﻿namespace TimeAndTuneWeb
 {
+    using EFCore.Service;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -13,6 +14,8 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IUserProvider, DatabaseUserProvider>();
+            services.AddTransient<ITaskProvider, DatabaseTaskProvider>();
             services.AddControllersWithViews();
         }
 
@@ -39,14 +42,9 @@
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}");
             });
 
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(this.Configuration)
-                .CreateLogger();
-
-            app.UseSerilogRequestLogging();
 
             Log.Information("Starting application");
         }

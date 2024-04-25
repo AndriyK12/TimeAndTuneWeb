@@ -2,7 +2,136 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+@* <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+</div> *@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+    <style>
+        body {
+            background-color: #25232A;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .menu-icon {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+        }
+
+        .menu-icon img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .user-icon {
+            width:70px;
+            height: 70px;
+            cursor: pointer;
+        }
+
+        .user-icon img {
+            width: 70px;
+            height: 70px;
+        }
+
+        .page-title-container {
+            width: 240px;
+            height: 80px;
+            background: rgba(137, 26, 26, 0);
+            box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 12px;
+            border: 5px solid #5FA6E7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-title {
+            font-size: 30px;
+            color: white;
+            margin-left: 10px;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .task-card {
+            background-color: #7A7373;
+            border-radius: 12px;
+            padding: 20px;
+            width: 900px;
+            position: center;
+            color: white;
+            font-size: 16px;
+            margin-left: 200px;
+            margin-bottom: 20px;
+        }
+
+        .task-card .task-name {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .task-card .task-date {
+            font-size: 16px;
+        }
+
+        
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="menu-icon" onclick="openNavigation()">
+            <img src="~/images/menu_icon.png" alt="Menu Icon" />
+        </div>
+        <div class="page-title-container">
+            <div class="page-title">Home</div>
+        </div>
+        <div class="user-icon" onclick="openUserInfo()">
+            <img src="~/images/user_image.png" alt="User Icon" />
+        </div>
+    </div>
+
+    @model EFCore.Task
+
+    @if (Model != null)
+    {
+        <div class="content">
+
+        <div class="task-card">
+            <span class="task-name">@Model.Name</span>
+                
+        </div>
+
+    </div>
+    }
+    <script>
+        function openNavigation() {
+            // Реалізуйте відкриття навігації
+        }
+
+        function openUserInfo() {
+            // Реалізуйте відкриття інформації про користувача
+        }
+    </script>
+</body>
+</html>

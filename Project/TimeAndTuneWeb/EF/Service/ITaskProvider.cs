@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace EFCore.Service
+﻿namespace EFCore.Service
 {
-    internal interface ITaskProvider
+    public interface ITaskProvider
     {
         List<Task> GetAllTasks();
 
