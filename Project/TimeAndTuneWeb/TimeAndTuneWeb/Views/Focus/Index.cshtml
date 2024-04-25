@@ -1,0 +1,193 @@
+﻿
+@{
+    ViewData["Title"] = "Focus Page";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+    <style>
+        body {
+            background-color: #25232A;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .menu-icon {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+        }
+
+        .menu-icon img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .user-icon {
+            width: 70px;
+            height: 70px;
+            cursor: pointer;
+        }
+
+        .user-icon img {
+            width: 70px;
+            height: 70px;
+        }
+
+        .page-title-container {
+            width: 240px;
+            height: 80px;
+            background: rgba(137, 26, 26, 0);
+            box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 12px;
+            border: 5px solid #5CF26B;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-title {
+            font-size: 30px;
+            color: white;
+            margin-left: 10px;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .photo-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .photo-container img {
+            width: 378px; 
+            height: 128px; 
+            object-fit: cover; 
+            margin: 25px; 
+        }
+
+        .center-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .center-container img {
+            width: 50px;
+            height: 50px;
+            margin-right: 50px;
+        }
+        .slider-container {
+            margin-left: 10px; 
+            text-align: center; 
+        }
+
+        .volume-label {
+            font-size: 20px;
+            color: white;
+        }
+
+        .volume-slider {
+            -webkit-appearance: none;
+            width: 200px;
+            height: 30px; 
+            background: #313131;
+            outline: none;
+            opacity: 1;
+            transition: opacity .2s;
+            border-radius: 10px;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            background: #;
+            cursor: pointer;
+            border-radius: 0%;
+        }
+
+        .volume-slider::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, white 0%, white 0%, transparent 0%, transparent 100%);
+            border-radius: 10px;
+        }
+
+        .volume-slider::-moz-range-track {
+            width: 100%;
+            height: 100%;
+            border-radius: 10px;
+        }
+
+        .volume-slider:hover {
+            opacity: 1;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <div class="menu-icon" onclick="openNavigation()">
+            <img src="~/images/menu_icon.png" alt="Menu Icon" />
+        </div>
+        <div class="page-title-container">
+            <div class="page-title">Focus</div>
+        </div>
+        <div class="user-icon" onclick="openUserInfo()">
+            <img src="~/images/user_image.png" alt="User Icon" />
+        </div>
+    </div>
+   
+    
+    <div class="center-container">
+        <img src="~/images/play.png" alt="play icon" />
+        <div class="slider-container">
+            <div class="volume-label">Master Volume</div>
+            <input type="range" min="0" max="100" value="50" class="volume-slider" id="mySlider">
+        </div>
+    </div>
+
+    <div class="photo-container">
+        <img src="~/images/cafeImage.png" alt="Cafe">
+        <img src="~/images/rainImage.png" alt="Rain">
+        <img src="~/images/fireplaceImage.png" alt="Camp Fire">
+        <img src="~/images/nightCricketsImage.png" alt="Night Crickets">
+        <img src="~/images/trainImage.png" alt="Train">
+        <img src="~/images/windImage.png" alt="Wind">
+    </div>
+
+    <script>
+        function openNavigation() {
+            // Реалізуйте відкриття навігації
+        }
+
+        function openUserInfo() {
+            // Реалізуйте відкриття інформації про користувача
+        }
+        
+        const slider = document.getElementById("mySlider");
+    
+        slider.addEventListener("input", function () {
+            const value = (slider.value - slider.min) / (slider.max - slider.min) * 100;
+            slider.style.background = `linear-gradient(to right, white 0%, white ${value}%, #313131 ${value}%, #313131 100%)`;
+        });
+    
+    </script>
+</body>
+</html>
