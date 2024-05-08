@@ -42,7 +42,7 @@
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Focus}/{action=Index}");
+                    pattern: "{controller=Home}/{action=Index}");
             });
 
 
