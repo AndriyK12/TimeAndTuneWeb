@@ -1,12 +1,9 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Statistics Page";
 }
-
-@* <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div> *@
-
 
 
 <!DOCTYPE html>
@@ -41,7 +38,7 @@
         }
 
         .user-icon {
-            width:70px;
+            width: 70px;
             height: 70px;
             cursor: pointer;
         }
@@ -57,7 +54,7 @@
             background: rgba(137, 26, 26, 0);
             box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
             border-radius: 12px;
-            border: 5px solid #5FA6E7;
+            border: 5px solid #984BBC;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -67,31 +64,6 @@
             font-size: 30px;
             color: white;
             margin-left: 10px;
-        }
-
-        .content {
-            padding: 20px;
-        }
-
-        .task-card {
-            background-color: #7A7373;
-            border-radius: 12px;
-            padding: 20px;
-            width: 900px;
-            position: center;
-            color: white;
-            font-size: 16px;
-            margin-left: 200px;
-            margin-bottom: 20px;
-        }
-
-        .task-card .task-name {
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-
-        .task-card .task-date {
-            font-size: 16px;
         }
 
         .navTab {
@@ -162,84 +134,6 @@
         .visible {
             display: block;
         }
-
-        .userTab {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: #4E4747;
-            width: 570px;
-            height: 60vh;
-            z-index: 3;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .top_elements{
-           margin-top: 1.55rem;
-        }
-
-        .user-icon-in-tab{
-            top: 0;
-            width: 70px;
-            height: 70px;
-            margin-left: 11.3rem;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .visible {
-            display: block;
-        }
-
-        .username{
-            color: #FFFFFF;
-            font-size: 24px;
-            margin-left: 4rem;
-        }
-
-        .coins-image{
-            width: 26px;
-            height: 26px;
-            margin-left: 4rem;
-            margin-bottom: 0.6rem;
-        }
-
-        .coins-text{
-            color: #FFFFFF;
-            font-size: 28px;
-            margin-left: 0.5rem;
-        }
-
-        .email_div{
-            margin-top: 5rem;
-            margin-left: 4rem;
-        }
-
-        .email{
-            color: #FFFFFF;
-            font-size: 28px;
-        }
-
-        .exit-block{
-            margin-left: 4rem;
-            margin-top: 10.5vh;
-        }
-
-        .exit-image{
-            width: 48px;
-            height: 48px;
-            margin-bottom: 0.6rem;
-        }
-
-        .exit-text{
-            color: #FFFFFF;
-            font-size: 28px;
-            margin-left: 0.5rem;
-        }
-        
     </style>
 </head>
 
@@ -275,46 +169,14 @@
                 <img src="~/images/menu_icon.png" alt="Menu Icon" onclick="toggleVisibility()" />
             </div>
             <div class="page-title-container">
-                <div class="page-title">Home</div>
+                <div class="page-title">Statistics</div>
             </div>
-            <div class="user-icon" onclick="toggleVisibility1()">
-                <img src="~/images/user_image.png" alt="User Icon"/>
-            </div>
-        </div>
-
-        <div class="userTab hidden" id="UserTab">
-            <div class="top_elements">
-                <span class="username">Username</span>
-                <img class="user-icon-in-tab" src="~/images/user_image.png" alt="User Icon" />
-            </div>
-            <div>
-                <img class="coins-image" src="~/images/coins_image.png" alt="Coins Icon" />
-                <span class="coins-text">142</span>
-            </div>
-            <div class="email_div">
-                <span class="email">example@gmail.com</span>
-            </div>
-            <div class="exit-block">
-                <img class="exit-image" src="~/images/exit_image.png" alt="Coins Icon" />
-                <span class="exit-text">Exit</span>
+            <div class="user-icon" onclick="openUserInfo()">
+                <img src="~/images/user_image.png" alt="User Icon" />
             </div>
         </div>
-        <div class="alphaCoverage hidden" id="coverage1" onclick="toggleVisibility1()"></div>
     </div>
 
-    @model EFCore.Task
-
-    @if (Model != null)
-    {
-        <div class="content">
-
-        <div class="task-card">
-            <span class="task-name">@Model.Name</span>
-                
-        </div>
-
-    </div>
-    }
     <script>
 
         function toggleVisibility() {
@@ -327,27 +189,6 @@
             } else {
                 NavTab.classList.remove('visible');
                 NavTab.classList.add('hidden');
-            }
-
-            if (coverage.classList.contains('hidden')) {
-                coverage.classList.remove('hidden');
-                coverage.classList.add('visible');
-            } else {
-                coverage.classList.remove('visible');
-                coverage.classList.add('hidden');
-            }
-        }
-
-        function toggleVisibility1() {
-            var UserTab = document.getElementById('UserTab');
-            var coverage = document.getElementById('coverage1');
-
-            if (UserTab.classList.contains('hidden')) {
-                UserTab.classList.remove('hidden');
-                UserTab.classList.add('visible');
-            } else {
-                UserTab.classList.remove('visible');
-                UserTab.classList.add('hidden');
             }
 
             if (coverage.classList.contains('hidden')) {
