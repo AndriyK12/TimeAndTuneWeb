@@ -1,0 +1,24 @@
+2024-04-25 20:35:32.675 +03:00 [INF] Starting application
+2024-04-25 20:35:34.597 +03:00 [INF] Executing endpoint 'TimeAndTuneWeb.Controllers.HomeController.Index (TimeAndTuneWeb)'
+2024-04-25 20:35:34.674 +03:00 [INF] Executing ViewResult, running view Index.
+2024-04-25 20:35:34.877 +03:00 [INF] Executed ViewResult - view Index executed in 208.3392ms.
+2024-04-25 20:35:34.889 +03:00 [INF] Executed endpoint 'TimeAndTuneWeb.Controllers.HomeController.Index (TimeAndTuneWeb)'
+2024-04-25 20:35:35.040 +03:00 [INF] Sending file. Request path: '/TimeAndTuneWeb.styles.css'. Physical path: 'D:\University\Університет\Програмна інженерія\Repository1\Project\TimeAndTuneWeb\TimeAndTuneWeb\obj\Debug\net8.0\scopedcss\bundle\TimeAndTuneWeb.styles.css'
+2024-04-25 20:35:35.052 +03:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/js/bootstrap.bundle.min.js'. Physical path: 'D:\University\Університет\Програмна інженерія\Repository1\Project\TimeAndTuneWeb\TimeAndTuneWeb\wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js'
+2024-04-25 20:35:35.040 +03:00 [INF] Sending file. Request path: '/css/site.css'. Physical path: 'D:\University\Університет\Програмна інженерія\Repository1\Project\TimeAndTuneWeb\TimeAndTuneWeb\wwwroot\css\site.css'
+2024-04-25 20:35:35.059 +03:00 [INF] Sending file. Request path: '/js/site.js'. Physical path: 'D:\University\Університет\Програмна інженерія\Repository1\Project\TimeAndTuneWeb\TimeAndTuneWeb\wwwroot\js\site.js'
+2024-04-25 20:35:35.078 +03:00 [INF] Sending file. Request path: '/lib/bootstrap/dist/css/bootstrap.min.css'. Physical path: 'D:\University\Університет\Програмна інженерія\Repository1\Project\TimeAndTuneWeb\TimeAndTuneWeb\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css'
+2024-04-25 20:35:35.132 +03:00 [INF] Sending file. Request path: '/lib/jquery/dist/jquery.min.js'. Physical path: 'D:\University\Університет\Програмна інженерія\Repository1\Project\TimeAndTuneWeb\TimeAndTuneWeb\wwwroot\lib\jquery\dist\jquery.min.js'
+2024-04-25 20:43:06.436 +03:00 [INF] Starting application
+2024-04-25 20:43:07.371 +03:00 [INF] Executing endpoint 'TimeAndTuneWeb.Controllers.HomeController.Index (TimeAndTuneWeb)'
+2024-04-25 20:43:07.430 +03:00 [INF] Executing ViewResult, running view Index.
+2024-04-25 20:43:07.551 +03:00 [INF] Executed ViewResult - view Index executed in 126.2624ms.
+2024-04-25 20:43:07.559 +03:00 [INF] Executed endpoint 'TimeAndTuneWeb.Controllers.HomeController.Index (TimeAndTuneWeb)'
+2024-04-25 20:43:13.101 +03:00 [INF] HTTP GET /focus responded 404 in 0.7262 ms
+2024-04-25 20:43:24.798 +03:00 [INF] HTTP GET /Focus responded 404 in 0.0182 ms
+2024-04-25 20:44:39.539 +03:00 [INF] Starting application
+2024-04-25 20:44:40.286 +03:00 [INF] Executing endpoint 'TimeAndTuneWeb.Controllers.HomeController.Index (TimeAndTuneWeb)'
+2024-04-25 20:44:40.370 +03:00 [INF] Executing ViewResult, running view Index.
+2024-04-25 20:44:40.478 +03:00 [INF] Executed ViewResult - view Index executed in 112.2794ms.
+2024-04-25 20:44:40.485 +03:00 [INF] Executed endpoint 'TimeAndTuneWeb.Controllers.HomeController.Index (TimeAndTuneWeb)'
+2024-04-25 20:44:45.061 +03:00 [INF] HTTP GET /Focus responded 404 in 0.8482 ms

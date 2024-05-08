@@ -137,7 +137,14 @@
         .volume-slider:hover {
             opacity: 1;
         }
+           
+        .photo-container img {
+            transition: transform 0.3s ease; 
+        }
 
+        .enlarged {
+            transform: scale(1.1); 
+        }
     </style>
 </head>
 
@@ -154,40 +161,104 @@
         </div>
     </div>
    
-    
     <div class="center-container">
-        <img src="~/images/play.png" alt="play icon" />
+        <img id="playButton" src="~/images/play.png" alt="play icon" onclick="toggleSoundEffects()" />
         <div class="slider-container">
             <div class="volume-label">Master Volume</div>
-            <input type="range" min="0" max="100" value="50" class="volume-slider" id="mySlider">
+            <input type="range" min="0" max="100" value = "50" class="volume-slider" id="mySlider">
         </div>
     </div>
 
     <div class="photo-container">
-        <img src="~/images/cafeImage.png" alt="Cafe">
-        <img src="~/images/rainImage.png" alt="Rain">
-        <img src="~/images/fireplaceImage.png" alt="Camp Fire">
-        <img src="~/images/nightCricketsImage.png" alt="Night Crickets">
-        <img src="~/images/trainImage.png" alt="Train">
-        <img src="~/images/windImage.png" alt="Wind">
+        <img src="~/images/cafeImage.png" alt="Cafe" onclick="playMusic('cafeSound', this)">
+        <img src="~/images/rainImage.png" alt="Rain" onclick="playMusic('rainSound', this)">
+        <img src="~/images/fireplaceImage.png" alt="Camp Fire" onclick="playMusic('campFireSound', this)">
+        <img src="~/images/nightCricketsImage.png" alt="Night Crickets" onclick="playMusic('nigthCricketsSound', this)">
+        <img src="~/images/trainImage.png" alt="Train" onclick="playMusic('trainSound', this)">
+        <img src="~/images/windImage.png" alt="Wind" onclick="playMusic('windSound', this)">
     </div>
 
+    <audio id="cafeSound" src="~/audios/cafe.mp3"></audio>
+    <audio id="campFireSound" src="~/audios/campFire.mp3"></audio>
+    <audio id="nigthCricketsSound" src="~/audios/nightCrickets.mp3"></audio>
+    <audio id="rainSound" src="~/audios/rain.mp3"></audio>
+    <audio id="trainSound" src="~/audios/train.mp3"></audio>
+    <audio id="windSound" src="~/audios/wind.mp3"></audio>
+
     <script>
-        function openNavigation() {
-            // Реалізуйте відкриття навігації
+        let currentAudio = null;
+        let playButtonState = false;
+        let currentImage = null;
+        const slider = document.getElementById("mySlider");
+        slider.value = 50;
+
+        window.addEventListener('load', function () {
+            updateSliderBackground();
+        });
+
+        function playMusic(audioId, image) {
+            var audio = document.getElementById(audioId);
+            currentImage = image;
+            if (audio.paused) {
+                transformImage(image, true);
+                changePlayButtonState();
+                currentAudio = audio;
+                audio.volume = slider.value/100;
+                audio.play();
+            } else {
+                transformImage(image, false);
+                changePlayButtonState();
+                audio.pause();
+                image.classList.remove('enlarged');
+            }
         }
 
-        function openUserInfo() {
-            // Реалізуйте відкриття інформації про користувача
+        function toggleSoundEffects() {
+            if (currentAudio) {
+                if (playButtonState) {
+                    changePlayButtonState();
+                    currentAudio.pause();
+                    currentImage.classList.remove('enlarged');
+                } else {
+                    changePlayButtonState();
+                    currentAudio.play();
+                    currentImage.classList.add('enlarged');
+                }
+            }
         }
-        
-        const slider = document.getElementById("mySlider");
-    
+
         slider.addEventListener("input", function () {
+            const value = (slider.value - slider.min) / (slider.max - slider.min);
+            console.log(value);
+            if (currentAudio) {
+                currentAudio.volume = value;
+                updateSliderBackground();
+            }
+        });
+
+        function transformImage(image, flag) {
+            if (flag) {
+                image.classList.add('enlarged');
+            } else {
+                image.classList.remove('enlarged');
+            }
+        }
+
+        function updateSliderBackground() {
             const value = (slider.value - slider.min) / (slider.max - slider.min) * 100;
             slider.style.background = `linear-gradient(to right, white 0%, white ${value}%, #313131 ${value}%, #313131 100%)`;
-        });
-    
+        }
+
+        function changePlayButtonState(){
+            var targetImage = document.getElementById('playButton');
+            if (!playButtonState) {
+                targetImage.src = "/images/pause.png";
+                playButtonState = true;
+            } else {
+                targetImage.src = "/images/play.png";
+                playButtonState = false;
+            }
+        }
     </script>
 </body>
 </html>

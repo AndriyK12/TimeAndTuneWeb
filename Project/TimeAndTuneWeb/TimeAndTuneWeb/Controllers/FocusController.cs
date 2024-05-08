@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace TimeAndTuneWeb.Controllers
+﻿namespace TimeAndTuneWeb.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+
     public class FocusController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Focus()
         {
             return View();
         }
