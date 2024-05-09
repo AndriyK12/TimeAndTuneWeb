@@ -212,6 +212,53 @@
             margin-left: 0.5rem;
         }
 
+        .buttons-body {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 30px;
+            margin-left: 350px;
+        }
+
+        .buttons-body .week-button,
+        .buttons-body .month-button{
+            width: 150px;
+            height: 50px;
+            background: #353535;
+            border-radius: 41px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-right: 90px;
+        }
+
+        .buttons-body .year-button{
+            width: 150px;
+            height: 50px;
+            background: #7A7373;
+            border-radius: 41px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-right: 90px;
+        }
+
+        .chart{
+            width: 800px;
+            max-width: 850px;
+            height: 400px;
+            max-height: 450px;
+            margin-left: 12rem;
+            margin-top: 4rem;
+        }
+
     </style>
 </head>
 
@@ -272,6 +319,23 @@
             </div>
         </div>
         <div class="alphaCoverage hidden" id="coverage1" onclick="toggleVisibility1()"></div>
+
+        <div class="buttons-body">
+            <div class="week-button" id="weekBtn" onclick="WeekChart()">
+                WEEK
+            </div>
+            <div class="month-button" id="monthBtn" onclick="MonthChart()">
+                MONTH
+            </div>
+            <div class="year-button" id="yearBtn" onclick="YearChart()">
+                YEAR
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <canvas class="chart" id="statisticsChart"></canvas>
+
     </div>
 
     <script>
@@ -316,6 +380,103 @@
                 coverage.classList.remove('visible');
                 coverage.classList.add('hidden');
             }
+        }
+
+        var ctx = document.getElementById('statisticsChart').getContext('2d');
+        var gradient = ctx.createLinearGradient(0, 0, 0, 400);
+        gradient.addColorStop(1, '#7F22AB');
+        gradient.addColorStop(0, '#6D6770');
+
+        var yearLabels = @Html.Raw(Json.Serialize(ViewBag.YearDates));
+        var yearData = @Html.Raw(Json.Serialize(ViewBag.YearCompletedTasks));
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: yearLabels,
+                datasets: [{
+                    label: 'Completed Tasks',
+                    data: yearData,
+                    backgroundColor: gradient,
+                    borderColor: '#575757',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        ticks: {
+                            color: '#FFFFFF' // X axis tick color
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0)' // X axis grid line color
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: '#FFFFFF' // Y axis tick color
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0)' // Y axis grid line color
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        function WeekChart() {
+            var weekBtn = document.getElementById('weekBtn');
+            var monthBtn = document.getElementById('monthBtn');
+            var yearBtn = document.getElementById('yearBtn');
+            
+            weekBtn.style.backgroundColor = '#7A7373';
+            monthBtn.style.backgroundColor = '#353535';
+            yearBtn.style.backgroundColor = '#353535';
+
+            var weekLabels = @Html.Raw(Json.Serialize(ViewBag.WeekDates));
+            var weekData = @Html.Raw(Json.Serialize(ViewBag.WeekCompletedTasks));
+
+            myChart.data.labels = weekLabels;
+            myChart.data.datasets[0].data = weekData;
+
+            myChart.update();
+        }
+
+        function MonthChart() {
+            var weekBtn = document.getElementById('weekBtn');
+            var monthBtn = document.getElementById('monthBtn');
+            var yearBtn = document.getElementById('yearBtn');
+
+            weekBtn.style.backgroundColor = '#353535';
+            monthBtn.style.backgroundColor = '#7A7373';
+            yearBtn.style.backgroundColor = '#353535';
+
+            var monthLabels = @Html.Raw(Json.Serialize(ViewBag.MonthDates));
+            var monthData = @Html.Raw(Json.Serialize(ViewBag.MonthCompletedTasks));
+
+            myChart.data.labels = monthLabels;
+            myChart.data.datasets[0].data = monthData;
+
+            myChart.update();
+        }
+
+        function YearChart() {
+            var weekBtn = document.getElementById('weekBtn');
+            var monthBtn = document.getElementById('monthBtn');
+            var yearBtn = document.getElementById('yearBtn');
+
+            weekBtn.style.backgroundColor = '#353535';
+            monthBtn.style.backgroundColor = '#353535';
+            yearBtn.style.backgroundColor = '#7A7373';
+
+            var yearLabels = @Html.Raw(Json.Serialize(ViewBag.YearDates));
+            var yearData = @Html.Raw(Json.Serialize(ViewBag.YearCompletedTasks));
+
+            myChart.data.labels = yearLabels;
+            myChart.data.datasets[0].data = yearData;
+
+            myChart.update();
         }
 
     </script>
