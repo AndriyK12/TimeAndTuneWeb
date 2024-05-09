@@ -318,7 +318,231 @@
             font-size: 28px;
             margin-left: 0.5rem;
         }
-        
+    </style>
+    <style>
+        .createTaskTab  {
+            position: absolute;
+            background-color: #25232a;
+            width: 60%;
+            height: 70%;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 10px; /* Заокруглення країв */
+            border: 3px solid white; /* Біле обведення */
+        }
+
+        .additionalInfoAboutTaskTab {
+            position: absolute;
+            background-color: #25232a;
+            width: 60%;
+            height: 70%;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 10px; /* Заокруглення країв */
+            border: 3px solid white; /* Біле обведення */
+        }
+
+        .go-back-icon {
+            position: absolute;
+            left: 20px; 
+            top: 20px; 
+            margin-top: 10px;
+        }
+
+        .go-back-icon img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .dialog-title-container {
+            position: absolute;
+            top: 20px; /* Розташування зверху на відстані 20 пікселів від краю */
+            left: 50%; /* Центрування по горизонталі */
+            transform: translateX(-50%); /* Центрування по горизонталі */
+            width: 280px;
+            height: 60px;
+            background: rgba(137, 26, 26, 0);
+            box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 12px;
+            border: 5px solid #a86b11;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dialog-title-container-additional-info {
+            position: absolute;
+            top: 20px; /* Розташування зверху на відстані 20 пікселів від краю */
+            left: 50%; /* Центрування по горизонталі */
+            transform: translateX(-50%); /* Центрування по горизонталі */
+            width: 350px;
+            height: 60px;
+            background: rgba(137, 26, 26, 0);
+            box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 12px;
+            border: 5px solid #a86b11;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .left-container {
+            width: 50%; /* Половина контейнера по ширині */
+            float: left;
+        }
+
+        .right-container {
+            width: 50%; /* Половина контейнера по ширині */
+            float: right;
+        }
+
+        .input-group {
+            margin-bottom: 20px; /* Відстань між групами полів */
+        }
+
+        label {
+            color: white; /* Колір тексту надписів */
+            font-weight: bold;
+            margin-left: 20px;
+            margin-bottom: 2px;
+        }
+
+        textarea {
+            resize: none;
+            background-color: #a6a3a3;
+        }
+
+        .rounded-input {
+            width: calc(120%); /* Ширина поля мінус відстань від країв */
+            height: 50px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .rounded-input-description {
+            width: calc(120%); /* Ширина поля мінус відстань від країв */
+            height: 260px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            margin-top: 100px;
+            justify-items: center; /* Центрує елементи по горизонталі в обох колонках */
+            align-items: center; /* Центрує елементи по вертикалі */
+        }
+
+        .left-container, .right-container {
+            text-align: center; /* Центрує вміст у контейнерах по горизонталі */
+        }
+
+        .create-button {
+            position: fixed; /* Фіксує кнопку на місці незалежно від прокрутки сторінки */
+            bottom: 0; /* Розміщує кнопку внизу */
+            right: 0; /* Розміщує кнопку справа */
+            width: 151px; /* Встановлює ширину кнопки */
+            height: 50px; /* Встановлює висоту кнопки */
+            margin-right: 74px;
+            margin-bottom: 40px;
+        }
+
+        .create-button img {
+            width: 100%; /* Заповнює всю ширину кнопки */
+            height: 100%; /* Заповнює всю висоту кнопки */
+        }
+
+        select.rounded-input {
+            width: calc(120%); /* Ширина поля мінус відстань від країв */
+            height: 50px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            appearance: none; /* Приховує стандартний вигляд стрілки вибору */
+            background: #a6a3a3; /* Додаємо власну іконку стрілки */
+            background-size: 20px; /* Розмір іконки стрілки */
+            cursor: pointer; /* Змінюємо курсор на показник при наведенні на поле вибору */
+        }
+
+        .plus-button {
+            position: fixed; /* Фіксує кнопку на місці незалежно від прокрутки сторінки */
+            bottom: 60px; /* Відступ від нижнього краю вікна */
+            right: 60px; /* Відступ від правого краю вікна */
+            width: 100px; /* Встановлює ширину кнопки */
+            height: 100px; /* Встановлює висоту кнопки */
+            background-color: transparent; /* Прозорий фон */
+            border: none; /* Видаляє рамку кнопки */
+            cursor: pointer; /* Змінює курсор на показник при наведенні на кнопку */
+        }
+
+        .plus-button img {
+            width: 100%; /* Заповнює всю ширину кнопки */
+            height: 100%; /* Заповнює всю висоту кнопки */
+        }
+        .hidden {
+            display: none;
+        }
+
+        .visible {
+            display: block;
+        }
+
+        .button-container {
+            margin-top: -35px;
+            display: flex;
+            justify-content: space-between; 
+            align-items: flex-end; 
+            width: 100%; 
+            height: 100px; 
+        }
+
+        .button {
+            flex: 1; 
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+        }
+
+        .central-button {
+            justify-content: space-around; 
+        }
+
+        .button img {
+            width: 124px;
+            height: 53px;
+        }
+
+        .central-button img {
+            width: 60px;
+            height: 60px;
+        }
+
+        .timer-text {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size:30px;
+            color: white;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -391,6 +615,87 @@
             </div>
         </div>
         <div class="alphaCoverage hidden" id="coverage1" onclick="toggleVisibility1()"></div>
+
+
+        <div class="createTaskTab hidden" id="CreateTaskTab">
+            <div class="go-back-icon" onclick="toggleVisibilityCreateDialog()">
+                <img src="~/images/back_button.png" alt="Go back button" />
+            </div>
+            <div class="dialog-title-container">
+                <div class="page-title">Create new task</div>
+            </div>
+
+            <div class="grid-container">
+                <div class="left-container">
+                    <label>Name:</label>
+                    <textarea id="largeField" name="largeField" class="rounded-input"></textarea>
+                    <label>Date:</label>
+                    <textarea id="largeField" name="largeField" class="rounded-input"></textarea>
+                    <label>Priority:</label>
+                    <select id="largeField" name="largeField" class="rounded-input">
+                        <option value="value1">High</option>
+                        <option value="value2">Standart</option>
+                        <option value="value3">Low</option>
+                    </select>
+                </div>
+
+                <div class="right-container">
+                    <label>Description:</label>
+                    <textarea id="largeField" name="largeField" class="rounded-input-description"></textarea>
+
+                    <div class="create-button">
+                        <img src="~/images/createButton.png" alt="create button" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="alphaCoverage hidden" id="coverageCreateTask" onclick="toggleVisibilityCreateDialog()"></div>
+
+        <div class="additionalInfoAboutTaskTab hidden" id="AdditionalInfoAboutTaskTab">
+            <div class="go-back-icon" onclick = "toggleVisibilityAdditionalInfoDialog()">
+                <img src="~/images/back_button.png" alt="Go back button" />
+            </div>
+            <div class="dialog-title-container-additional-info">
+                <div class="page-title">Additional information</div>
+            </div>
+            <div class="timer-text">00:00</div>
+
+            <div class="grid-container">
+                <div class="left-container">
+                    <label>Name:</label>
+                    <textarea id="largeField" name="largeField" class="rounded-input"></textarea>
+                    <label>Date:</label>
+                    <textarea id="largeField" name="largeField" class="rounded-input"></textarea>
+                    <label>Priority:</label>
+                    <select id="largeField" name="largeField" class="rounded-input">
+                        <option value="value1">High</option>
+                        <option value="value2">Standart</option>
+                        <option value="value3">Low</option>
+                    </select>
+                </div>
+
+                <div class="right-container">
+                    <label>Description:</label>
+                    <textarea id="largeField" name="largeField" class="rounded-input-description"></textarea>
+                </div>
+            </div>
+            <div class="button-container">
+                <div class="button">
+                    <img src="~/images/updateButton.png" alt="update button" />
+                </div>
+                <div class="button central-button">
+                    <img src="~/images/playTimer.png" alt="update button" />
+                </div>
+                <div class="button">
+                    <img src="~/images/finishButton.png" alt="update button" />
+                </div>
+            </div>
+        </div>
+        <div class="alphaCoverage hidden" id="coverageAdditionInfo" onclick="toggleVisibilityAdditionalInfoDialog()"></div>
+
+        <div class="plus-button" onclick = "toggleVisibilityCreateDialog()">
+            <img src="~/images/plusButton.png" alt="plus button" />
+        </div>
     </div>
 
     @model List<EFCore.Task>
@@ -400,7 +705,7 @@
         <div class="content">
             @foreach (var task in Model)
             {
-                <div class="task-card">
+                <div class="task-card" onclick="toggleVisibilityAdditionalInfoDialog()">
                     <img class="task-checkbox" src="~/images/task_checkbox.png" />
                     <span class="task-name">@task.Name</span>
                     <span class="task-border">|</span>
@@ -464,6 +769,48 @@
                 coverage.classList.add('hidden');
             }
         }
+
+        function toggleVisibilityCreateDialog(){
+            var createTaskDialog = document.getElementById('CreateTaskTab')
+            var coverage = document.getElementById('coverageCreateTask');
+
+            if (createTaskDialog.classList.contains('hidden')) {
+                createTaskDialog.classList.remove('hidden');
+                createTaskDialog.classList.add('visible');
+            } else {
+                createTaskDialog.classList.remove('visible');
+                createTaskDialog.classList.add('hidden');
+            }
+
+            if (coverage.classList.contains('hidden')) {
+                coverage.classList.remove('hidden');
+                coverage.classList.add('visible');
+            } else {
+                coverage.classList.remove('visible');
+                coverage.classList.add('hidden');
+            }
+
+        }
+
+        function toggleVisibilityAdditionalInfoDialog() {
+            var createTaskDialog = document.getElementById('AdditionalInfoAboutTaskTab')
+            var coverage = document.getElementById('coverageAdditionInfo');
+
+            if (createTaskDialog.classList.contains('hidden')) {
+                createTaskDialog.classList.remove('hidden');
+                createTaskDialog.classList.add('visible');
+            } else {
+                createTaskDialog.classList.remove('visible');
+                createTaskDialog.classList.add('hidden');
+            }
+
+            if (coverage.classList.contains('hidden')) {
+                coverage.classList.remove('hidden');
+                coverage.classList.add('visible');
+            } else {
+                coverage.classList.remove('visible');
+                coverage.classList.add('hidden');
+            }
 
         function DayTable() {
             var dayBtn = document.getElementById('dayBtn');
