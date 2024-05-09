@@ -8,6 +8,8 @@
 
         string getEmail(User user);
 
+        bool isUserAlreadyExist(string email);
+
         int getCoinsAmount(User user);
 
         void setCoinsAmount(User user, int amount);

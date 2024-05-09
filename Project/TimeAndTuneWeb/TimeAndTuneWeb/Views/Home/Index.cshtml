@@ -27,6 +27,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px;
+            margin-bottom: 60px;
         }
 
         .menu-icon {
@@ -74,19 +75,18 @@
         }
 
         .task-card {
-            background-color: #454545;
             border-radius: 12px;
             padding: 20px;
-            width: 900px;
-            position: center;
+            width: 80%;
+            max-width: 900px;
+            margin: 0 auto 20px;
             color: white;
             font-size: 16px;
-            margin-left: 200px;
-            margin-bottom: 20px;
+            background-color: #454545;
+            position: center;
             display: flex;
             align-items: center;
-            /* display: flex;
-            flex-direction: row; */
+            
         }
 
         .task-checkbox{
@@ -124,6 +124,35 @@
             font-size: 20px;
             margin-left: 0.6rem;
             margin-right: 0.6rem;
+        }
+
+        .buttons-body {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 30px;
+            margin-left: 350px;
+        }
+
+        .buttons-body .day-button,
+        .buttons-body .week-button,
+        .buttons-body .month-button {
+            width: 150px;
+            height: 50px;
+            background: #353535;
+            border-radius: 41px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-right: 90px;
+        }
+
+        .buttons-body .month-button {
+            margin-right: 0;
         }
 
         .navTab {
@@ -311,6 +340,18 @@
             </div>
             <div class="user-icon" onclick="toggleVisibility1()">
                 <img src="~/images/user_image.png" alt="User Icon"/>
+            </div>
+        </div>
+
+        <div class="buttons-body">
+            <div class="day-button">
+                DAY
+            </div>
+            <div class="week-button">
+                WEEK
+            </div>
+            <div class="month-button">
+                MONTH
             </div>
         </div>
 
