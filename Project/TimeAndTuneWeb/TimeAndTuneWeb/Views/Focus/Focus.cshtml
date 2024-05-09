@@ -187,7 +187,6 @@
 
     <script>
         let currentAudio = null;
-        let playButtonState = false;
         let currentImage = null;
         const slider = document.getElementById("mySlider");
         slider.value = 50;
@@ -198,32 +197,39 @@
 
         function playMusic(audioId, image) {
             var audio = document.getElementById(audioId);
-            currentImage = image;
+
+            if (!currentAudio || currentAudio == audio) {
+                changePlayButtonState(true);
+            }
+
             if (audio.paused) {
+                if(currentAudio){
+                    currentAudio.pause();
+                    transformImage(currentImage, false);
+                }
+                changePlayButtonState(false);
                 transformImage(image, true);
-                changePlayButtonState();
+                currentImage = image;
                 currentAudio = audio;
                 audio.volume = slider.value/100;
                 audio.play();
             } else {
                 transformImage(image, false);
-                changePlayButtonState();
+                changePlayButtonState(true);
                 audio.pause();
                 image.classList.remove('enlarged');
             }
         }
 
         function toggleSoundEffects() {
-            if (currentAudio) {
-                if (playButtonState) {
-                    changePlayButtonState();
-                    currentAudio.pause();
-                    currentImage.classList.remove('enlarged');
-                } else {
-                    changePlayButtonState();
-                    currentAudio.play();
-                    currentImage.classList.add('enlarged');
-                }
+            if (currentAudio.paused) {
+                currentAudio.play();
+                transformImage(currentImage, true);
+                changePlayButtonState(false);
+            } else {
+                currentAudio.pause();
+                transformImage(currentImage, false);
+                changePlayButtonState(true);
             }
         }
 
@@ -249,14 +255,12 @@
             slider.style.background = `linear-gradient(to right, white 0%, white ${value}%, #313131 ${value}%, #313131 100%)`;
         }
 
-        function changePlayButtonState(){
+        function changePlayButtonState(state){
             var targetImage = document.getElementById('playButton');
-            if (!playButtonState) {
+            if (!state) {
                 targetImage.src = "/images/pause.png";
-                playButtonState = true;
             } else {
                 targetImage.src = "/images/play.png";
-                playButtonState = false;
             }
         }
     </script>
