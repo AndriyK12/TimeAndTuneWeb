@@ -1,6 +1,7 @@
 namespace TimeAndTuneWeb.Controllers
 {
     using System.Diagnostics;
+    using System.Security.Claims;
     using EFCore.Service;
     using Microsoft.AspNetCore.Mvc;
     using TimeAndTuneWeb.Models;
@@ -18,15 +19,23 @@ namespace TimeAndTuneWeb.Controllers
 
         public IActionResult Index()
         {
-            //var task = _taskProvider.getTaskById(1);
-            var tasks = _taskProvider.GetAllTasksByUserID(1);
-            /*if (task == null)
+            var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+            int userId = -1;
+            if (userIdClaim != null)
             {
-                return NotFound();
-            }*/
+                string userIdValue = userIdClaim.Value;
+
+                try
+                {
+                    userId = int.Parse(userIdValue);
+                }
+                catch (FormatException ex)
+                {
+                }
+            }
+            var tasks = _taskProvider.GetAllTasksByUserID(userId);
 
             return View(tasks);
-            
         }
 
         public IActionResult Privacy()
