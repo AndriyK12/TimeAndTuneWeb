@@ -121,19 +121,15 @@
         }
 
         .task-border{
-            /* width: 2px; */
             font-size: 25px;
-            /* height: 22px; */
-            /* background: #FFF; */
         }
 
         .task-card .task-name {
             font-size: 20px;
             margin-bottom: 10px;
             width: 600px;
-            /* max-width: 300px; */
-            overflow: hidden; /* Hide overflowing text */
-            text-overflow: ellipsis; /* Display ellipsis (...) for overflow */
+            overflow: hidden;
+            text-overflow: ellipsis;
             white-space: nowrap;
         }
 
@@ -333,8 +329,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            border-radius: 10px; /* Заокруглення країв */
-            border: 3px solid white; /* Біле обведення */
+            border-radius: 10px;
+            border: 3px solid white;
         }
 
         .additionalInfoAboutTaskTab {
@@ -350,8 +346,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            border-radius: 10px; /* Заокруглення країв */
-            border: 3px solid white; /* Біле обведення */
+            border-radius: 10px;
+            border: 3px solid white;
         }
 
         .go-back-icon {
@@ -368,9 +364,9 @@
 
         .dialog-title-container {
             position: absolute;
-            top: 20px; /* Розташування зверху на відстані 20 пікселів від краю */
-            left: 50%; /* Центрування по горизонталі */
-            transform: translateX(-50%); /* Центрування по горизонталі */
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             width: 280px;
             height: 60px;
             background: rgba(137, 26, 26, 0);
@@ -384,9 +380,9 @@
 
         .dialog-title-container-additional-info {
             position: absolute;
-            top: 20px; /* Розташування зверху на відстані 20 пікселів від краю */
-            left: 50%; /* Центрування по горизонталі */
-            transform: translateX(-50%); /* Центрування по горизонталі */
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             width: 350px;
             height: 60px;
             background: rgba(137, 26, 26, 0);
@@ -399,21 +395,21 @@
         }
 
         .left-container {
-            width: 50%; /* Половина контейнера по ширині */
+            width: 50%;
             float: left;
         }
 
         .right-container {
-            width: 50%; /* Половина контейнера по ширині */
+            width: 50%;
             float: right;
         }
 
         .input-group {
-            margin-bottom: 20px; /* Відстань між групами полів */
+            margin-bottom: 20px;
         }
 
         label {
-            color: white; /* Колір тексту надписів */
+            color: white;
             font-weight: bold;
             margin-left: 20px;
             margin-bottom: 2px;
@@ -425,7 +421,7 @@
         }
 
         .rounded-input {
-            width: calc(120%); /* Ширина поля мінус відстань від країв */
+            width: calc(120%);
             height: 50px;
             padding: 10px;
             border: 1px solid #ccc;
@@ -434,7 +430,7 @@
         }
 
         .rounded-input-description {
-            width: calc(120%); /* Ширина поля мінус відстань від країв */
+            width: calc(120%);
             height: 260px;
             padding: 10px;
             border: 1px solid #ccc;
@@ -446,56 +442,56 @@
             display: grid;
             grid-template-columns: 1fr 1.2fr;
             margin-top: 100px;
-            justify-items: center; /* Центрує елементи по горизонталі в обох колонках */
-            align-items: center; /* Центрує елементи по вертикалі */
+            justify-items: center;
+            align-items: center;
         }
 
         .left-container, .right-container {
-            text-align: center; /* Центрує вміст у контейнерах по горизонталі */
+            text-align: center;
         }
 
         .create-button {
-            position: fixed; /* Фіксує кнопку на місці незалежно від прокрутки сторінки */
-            bottom: 0; /* Розміщує кнопку внизу */
-            right: 0; /* Розміщує кнопку справа */
-            width: 151px; /* Встановлює ширину кнопки */
-            height: 50px; /* Встановлює висоту кнопки */
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 151px;
+            height: 50px;
             margin-right: 74px;
             margin-bottom: 40px;
         }
 
         .create-button img {
-            width: 100%; /* Заповнює всю ширину кнопки */
-            height: 100%; /* Заповнює всю висоту кнопки */
+            width: 100%;
+            height: 100%;
         }
 
         select.rounded-input {
-            width: calc(120%); /* Ширина поля мінус відстань від країв */
+            width: calc(120%);
             height: 50px;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 10px;
             margin-bottom: 20px;
-            appearance: none; /* Приховує стандартний вигляд стрілки вибору */
-            background: #a6a3a3; /* Додаємо власну іконку стрілки */
-            background-size: 20px; /* Розмір іконки стрілки */
-            cursor: pointer; /* Змінюємо курсор на показник при наведенні на поле вибору */
+            appearance: none;
+            background: #a6a3a3;
+            background-size: 20px;
+            cursor: pointer;
         }
 
         .plus-button {
-            position: fixed; /* Фіксує кнопку на місці незалежно від прокрутки сторінки */
-            bottom: 60px; /* Відступ від нижнього краю вікна */
-            right: 11rem; /* Відступ від правого краю вікна */
-            width: 100px; /* Встановлює ширину кнопки */
-            height: 100px; /* Встановлює висоту кнопки */
-            background-color: transparent; /* Прозорий фон */
-            border: none; /* Видаляє рамку кнопки */
-            cursor: pointer; /* Змінює курсор на показник при наведенні на кнопку */
+            position: fixed;
+            bottom: 60px;
+            right: 11rem;
+            width: 100px;
+            height: 100px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
         }
 
         .plus-button img {
-            width: 100%; /* Заповнює всю ширину кнопки */
-            height: 100%; /* Заповнює всю висоту кнопки */
+            width: 100%;
+            height: 100%;
         }
         .hidden {
             display: none;
