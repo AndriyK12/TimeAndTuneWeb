@@ -4,6 +4,7 @@ namespace TimeAndTuneWeb.Controllers
     using System.Security.Claims;
     using EFCore.Service;
     using Microsoft.AspNetCore.Mvc;
+    using Serilog;
     using TimeAndTuneWeb.Models;
 
     public class HomeController : Controller
@@ -19,6 +20,7 @@ namespace TimeAndTuneWeb.Controllers
 
         public IActionResult Index()
         {
+            Log.Information("Loading HomePage tasks table");
             var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
             int userId = -1;
             if (userIdClaim != null)
@@ -33,6 +35,7 @@ namespace TimeAndTuneWeb.Controllers
                 {
                 }
             }
+
             var tasks = _taskProvider.GetAllTasksByUserID(userId);
 
             return View(tasks);
