@@ -82,6 +82,7 @@ namespace TimeAndTuneWeb.Controllers
             var claim = new List<Claim>()
             {
             new Claim(ClaimsIdentity.DefaultNameClaimType, user.Username),
+            new Claim(ClaimTypes.NameIdentifier, user.Userid.ToString()),
             };
 
             var claimsIdentity = new ClaimsIdentity(claim, CookieAuthenticationDefaults.AuthenticationScheme);

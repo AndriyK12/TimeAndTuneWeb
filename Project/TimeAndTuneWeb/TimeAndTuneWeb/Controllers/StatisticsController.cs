@@ -1,13 +1,36 @@
 ﻿namespace TimeAndTuneWeb.Controllers
 {
+    using EFCore;
     using EFCore.Service;
     using Microsoft.AspNetCore.Mvc;
+    using System.Security.Claims;
 
     public class StatisticsController : Controller
     {
+        private readonly IUserProvider _userProvider;
+
+        public StatisticsController(IUserProvider userProvider)
+        {
+            _userProvider = userProvider;
+        }
 
         public IActionResult Statistics()
         {
+            var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+            int userId = -1;
+            if (userIdClaim != null)
+            {
+                string userIdValue = userIdClaim.Value;
+
+                try
+                {
+                    userId = int.Parse(userIdValue);
+                }
+                catch (FormatException ex)
+                {
+                }
+            }
+
             // Week chart
             DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);
             int currentDayOfWeek = (int)currentDate.DayOfWeek;
@@ -24,7 +47,7 @@
             DatabaseUserProvider userService = new DatabaseUserProvider();
             foreach (DateOnly date in dates)
             {
-                int amount = taskService.GetAmountOfCompletedTasksByDate(date, 1/*userService.getUserID(MainWindow.ActiveUser)*/);
+                int amount = taskService.GetAmountOfCompletedTasksByDate(date, userId/*userService.getUserID(MainWindow.ActiveUser)*/);
                 tasks.Add(amount);
             }
 
@@ -48,7 +71,7 @@
             tasks = new List<int>();
             foreach (DateOnly date in dates)
             {
-                int amount = taskService.GetAmountOfCompletedTasksByDate(date, 1/*userService.getUserID(MainWindow.ActiveUser)*/);
+                int amount = taskService.GetAmountOfCompletedTasksByDate(date, userId/*userService.getUserID(MainWindow.ActiveUser)*/);
                 tasks.Add(amount);
             }
 
@@ -80,7 +103,7 @@
                 int amount_of_tasks_by_month = 0;
                 foreach (var date in kvp.Value)
                 {
-                    amount_of_tasks_by_month += taskService.GetAmountOfCompletedTasksByDate(date, 1/*userService.getUserID(MainWindow.ActiveUser)*/);
+                    amount_of_tasks_by_month += taskService.GetAmountOfCompletedTasksByDate(date, userId/*userService.getUserID(MainWindow.ActiveUser)*/);
                 }
 
                 tasks.Add(amount_of_tasks_by_month);
