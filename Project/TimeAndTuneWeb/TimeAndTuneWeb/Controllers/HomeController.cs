@@ -18,13 +18,14 @@ namespace TimeAndTuneWeb.Controllers
 
         public IActionResult Index()
         {
-            var task = _taskProvider.getTaskById(1);
-            if (task == null)
+            //var task = _taskProvider.getTaskById(1);
+            var tasks = _taskProvider.GetAllTasksByUserID(1);
+            /*if (task == null)
             {
                 return NotFound();
-            }
+            }*/
 
-            return View(task);
+            return View(tasks);
             
         }
 

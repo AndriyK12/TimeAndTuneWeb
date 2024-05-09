@@ -74,7 +74,7 @@
         }
 
         .task-card {
-            background-color: #7A7373;
+            background-color: #454545;
             border-radius: 12px;
             padding: 20px;
             width: 900px;
@@ -83,15 +83,47 @@
             font-size: 16px;
             margin-left: 200px;
             margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            /* display: flex;
+            flex-direction: row; */
+        }
+
+        .task-checkbox{
+            width: 22px;
+            height: 22px;
+            margin-bottom: 0.4rem;
+            margin-right: 0.8rem;
+        }
+
+        .task-priority{
+            width: 22px;
+            height: 22px;
+            margin-bottom: 0.4rem;
+            margin-left: 2rem;
+        }
+
+        .task-border{
+            /* width: 2px; */
+            font-size: 25px;
+            /* height: 22px; */
+            /* background: #FFF; */
         }
 
         .task-card .task-name {
             font-size: 20px;
             margin-bottom: 10px;
+            width: 600px;
+            /* max-width: 300px; */
+            overflow: hidden; /* Hide overflowing text */
+            text-overflow: ellipsis; /* Display ellipsis (...) for overflow */
+            white-space: nowrap;
         }
 
         .task-card .task-date {
-            font-size: 16px;
+            font-size: 20px;
+            margin-left: 0.6rem;
+            margin-right: 0.6rem;
         }
 
         .navTab {
@@ -302,18 +334,33 @@
         <div class="alphaCoverage hidden" id="coverage1" onclick="toggleVisibility1()"></div>
     </div>
 
-    @model EFCore.Task
+    @model List<EFCore.Task>
 
     @if (Model != null)
     {
         <div class="content">
-
-        <div class="task-card">
-            <span class="task-name">@Model.Name</span>
-                
+            @foreach (var task in Model)
+            {
+                <div class="task-card">
+                    <img class="task-checkbox" src="~/images/task_checkbox.png" />
+                    <span class="task-name">@task.Name</span>
+                    <span class="task-border">|</span>
+                    <span class="task-date">@task.Expectedfinishtime</span>
+                    <span class="task-border">|</span>
+                    @if (task.Priority == 1)
+                    {
+                        <img class="task-priority" src="~/images/first_prior_image.png" />
+                    }
+                    else if (task.Priority == 2){
+                        <img class="task-priority" src="~/images/second_prior_image.png" />
+                    }
+                    else if (task.Priority == 3)
+                    {
+                        <img class="task-priority" src="~/images/third_prior_image.png" />
+                    }
+                </div>
+            }
         </div>
-
-    </div>
     }
     <script>
 
