@@ -8,8 +8,8 @@ namespace TimeAndTuneWeb
         public static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
-    .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
-    .CreateLogger();
+            .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
 
 
             try

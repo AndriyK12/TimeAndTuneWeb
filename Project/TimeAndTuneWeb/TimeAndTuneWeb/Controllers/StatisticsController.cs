@@ -3,6 +3,7 @@
     using EFCore;
     using EFCore.Service;
     using Microsoft.AspNetCore.Mvc;
+    using Serilog;
     using System.Security.Claims;
 
     public class StatisticsController : Controller
@@ -32,6 +33,7 @@
             }
 
             // Week chart
+            Log.Information("Loading StatisticsPage chart for a week");
             DateOnly currentDate = DateOnly.FromDateTime(DateTime.Now);
             int currentDayOfWeek = (int)currentDate.DayOfWeek;
             int daysToMonday = currentDayOfWeek - (int)DayOfWeek.Monday;
@@ -59,6 +61,7 @@
 
 
             // Month chart
+            Log.Information("Loading StatisticsPage chart for a month");
             DateOnly firstDayOfMonth = new DateOnly(currentDate.Year, currentDate.Month, 1);
             DateOnly lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
             int daysInMonth = (int)lastDayOfMonth.Day - firstDayOfMonth.Day + 1;
@@ -82,6 +85,7 @@
             ViewBag.MonthCompletedTasks = monthData;
 
             // Year chart
+            Log.Information("Loading StatisticsPage chart for a year");
             int currentYear = currentDate.Year;
             Dictionary<int, List<DateOnly>> dateDictionary = new Dictionary<int, List<DateOnly>>();
             for (int month = 1; month <= 12; month++)
