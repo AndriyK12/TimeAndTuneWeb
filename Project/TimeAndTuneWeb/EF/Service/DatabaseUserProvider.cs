@@ -33,6 +33,16 @@
             return user;
         }
 
+        //public bool isUserAlreadyExist(string email)
+        //{
+        //    using (var context = new TTContext())
+        //    {
+        //        var user = context.Users.FirstOrDefault(u => u.Email == email);
+        //        return user != null;
+        //    }
+        //}
+
+
         public int getCoinsAmount(User user)
         {
             return (int)user.Coinsamount;

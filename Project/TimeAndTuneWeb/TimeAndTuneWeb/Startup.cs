@@ -1,6 +1,7 @@
 ﻿namespace TimeAndTuneWeb
 {
     using EFCore.Service;
+    using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -16,6 +17,14 @@
         {
             services.AddTransient<IUserProvider, DatabaseUserProvider>();
             services.AddTransient<ITaskProvider, DatabaseTaskProvider>();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new PathString("/Account/Login");
+                    options.AccessDeniedPath = new PathString("/Account/Login");
+                });
+            services.AddAuthorization();
+
             services.AddControllersWithViews();
         }
 
@@ -36,13 +45,14 @@
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}");
+                    pattern: "{controller=Account}/{action=Login}");
             });
 
 
