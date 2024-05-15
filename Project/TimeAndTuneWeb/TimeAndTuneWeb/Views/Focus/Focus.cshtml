@@ -410,7 +410,7 @@
     <div>
         <div class="navTab hidden" id="NavTab">
             <div>
-                <a class="navItem" asp-controller="Home" asp-action="Index">
+                <a class="navItem" asp-controller="Home" asp-action="Index" asp-all-route-data='new Dictionary<string, string> { { "period", "month" } }'>
                     <img class="navTabImg" src="~/images/home_image.png" alt="Home Icon" />
                     <span>Home</span>
                 </a>

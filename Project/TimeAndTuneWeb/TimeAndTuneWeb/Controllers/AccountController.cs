@@ -40,7 +40,13 @@ namespace TimeAndTuneWeb.Controllers
                 if (user != null && BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
                 {
                     await Authenticate(user);
-                    return RedirectToAction("Index", "Home");
+                    var routeValues = new RouteValueDictionary {
+                        { "controller", "Home" },
+                        { "action", "Index" },
+                        { "period", "month" }
+                    };
+
+                    return RedirectToAction("Index", "Home", routeValues);
                 }
 
                 ModelState.AddModelError("", "Incorrect login and (or) password");
@@ -69,7 +75,13 @@ namespace TimeAndTuneWeb.Controllers
 
                     await Authenticate(user);
 
-                    return RedirectToAction("Index", "Home");
+                    var routeValues = new RouteValueDictionary {
+                        { "controller", "Home" },
+                        { "action", "Index" },
+                        { "period", "month" }
+                    };
+
+                    return RedirectToAction("Index", "Home", routeValues);
                 }
 
                 ModelState.AddModelError("", "A user with this email address already exists");
