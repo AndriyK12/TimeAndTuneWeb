@@ -83,6 +83,7 @@ namespace TimeAndTuneWeb.Controllers
             {
             new Claim(ClaimsIdentity.DefaultNameClaimType, user.Username),
             new Claim(ClaimTypes.NameIdentifier, user.Userid.ToString()),
+            new Claim(ClaimTypes.Email, user.Email)
             };
 
             var claimsIdentity = new ClaimsIdentity(claim, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -93,11 +94,16 @@ namespace TimeAndTuneWeb.Controllers
             var principal = new ClaimsPrincipal(identity);
             var authProperties = new AuthenticationProperties
             {
+                IsPersistent = true,
                 /* IsPersistent = true*/ // Налаштуйте це за потребою
             };
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-
+            //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties
+            );
         }
 
         [Authorize]

@@ -31,6 +31,12 @@
                 {
                 }
             }
+            DatabaseUserProvider userService = new DatabaseUserProvider();
+            var userEmailClaim = HttpContext.User.FindFirst(ClaimTypes.Email);
+            var userEmail = userEmailClaim.Value;
+            var coinsAmount = userService.getCoinsAmount(userService.getUserByEmail(userEmail));
+            ViewBag.Email = userEmail;
+            ViewBag.CoinsAmount = coinsAmount;
 
             // Week chart
             Log.Information("Loading StatisticsPage chart for a week");
@@ -46,7 +52,6 @@
 
             var tasks = new List<int>();
             DatabaseTaskProvider taskService = new DatabaseTaskProvider();
-            DatabaseUserProvider userService = new DatabaseUserProvider();
             foreach (DateOnly date in dates)
             {
                 int amount = taskService.GetAmountOfCompletedTasksByDate(date, userId/*userService.getUserID(MainWindow.ActiveUser)*/);
