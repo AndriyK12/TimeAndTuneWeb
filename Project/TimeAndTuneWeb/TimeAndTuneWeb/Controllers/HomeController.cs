@@ -37,6 +37,12 @@ namespace TimeAndTuneWeb.Controllers
             }
 
             var tasks = _taskProvider.GetAllTasksByUserID(userId);
+            DatabaseUserProvider userService = new DatabaseUserProvider();
+            var userEmailClaim = HttpContext.User.FindFirst(ClaimTypes.Email);
+            var userEmail = userEmailClaim.Value;
+            var coinsAmount = userService.getCoinsAmount(userService.getUserByEmail(userEmail));
+            ViewBag.Email = userEmail;
+            ViewBag.CoinsAmount = coinsAmount;
 
             return View(tasks);
         }
