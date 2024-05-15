@@ -6,6 +6,7 @@ namespace TimeAndTuneWeb.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Serilog;
     using TimeAndTuneWeb.Models;
+    using TimeAndTuneWeb.ViewModels;
 
     public class HomeController : Controller
     {
@@ -39,6 +40,37 @@ namespace TimeAndTuneWeb.Controllers
             var tasks = _taskProvider.GetAllTasksByUserID(userId);
 
             return View(tasks);
+        }
+
+        [HttpGet]
+        public IActionResult AddNewTask()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddNewTask(NewTaskViewModel model)
+        {
+            if (model.Name != null && model.Date != null && model.Priority != null)
+            {
+                var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+                int userId = -1;
+                if (userIdClaim != null)
+                {
+                    string userIdValue = userIdClaim.Value;
+
+                    try
+                    {
+                        userId = int.Parse(userIdValue);
+                        _taskProvider.addNewTask(model.Name, model.Description, model.Date, model.Priority, userId);
+                    }
+                    catch (FormatException ex)
+                    {
+                    }
+                }
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Privacy()

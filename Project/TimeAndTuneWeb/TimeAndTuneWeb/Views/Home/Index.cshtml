@@ -450,14 +450,17 @@
             text-align: center;
         }
 
-        .create-button {
+        .btn.btn-primary {
+            width: 151px; 
+            height: 50px; 
+            background-color: #1c4335;
+            border: 2px solid white;
             position: fixed;
             bottom: 0;
             right: 0;
-            width: 151px;
-            height: 50px;
             margin-right: 74px;
             margin-bottom: 40px;
+            cursor: pointer;
         }
 
         .create-button img {
@@ -612,41 +615,40 @@
         </div>
         <div class="alphaCoverage hidden" id="coverage1" onclick="toggleVisibility1()"></div>
 
-
-        <div class="createTaskTab hidden" id="CreateTaskTab">
-            <div class="go-back-icon" onclick="toggleVisibilityCreateDialog()">
-                <img src="~/images/back_button.png" alt="Go back button" />
-            </div>
-            <div class="dialog-title-container">
-                <div class="page-title">Create new task</div>
-            </div>
-
-            <div class="grid-container">
-                <div class="left-container">
-                    <label>Name:</label>
-                    <textarea id="largeField" name="largeField" class="rounded-input"></textarea>
-                    <label>Date:</label>
-                    <textarea id="largeField" name="largeField" class="rounded-input"></textarea>
-                    <label>Priority:</label>
-                    <select id="largeField" name="largeField" class="rounded-input">
-                        <option value="value1">High</option>
-                        <option value="value2">Standart</option>
-                        <option value="value3">Low</option>
-                    </select>
+        <form asp-action="AddNewTask" method="post">
+            <div class="createTaskTab hidden" id="CreateTaskTab">
+                <div class="go-back-icon" onclick="toggleVisibilityCreateDialog()">
+                    <img src="~/images/back_button.png" alt="Go back button" />
+                </div>
+                <div class="dialog-title-container">
+                    <div class="page-title">Create new task</div>
                 </div>
 
-                <div class="right-container">
-                    <label>Description:</label>
-                    <textarea id="largeField" name="largeField" class="rounded-input-description"></textarea>
+                <div class="grid-container">
+                    <div class="left-container">
+                        <label>Name:</label>
+                        <textarea id="largeField" name="Name" class="rounded-input" required oninvalid="this.setCustomValidity('Please fill in this field')"></textarea>
+                        <label>Date:</label>
+                        <textarea id="largeField" name="Date" class="rounded-input" required oninvalid="this.setCustomValidity('Please fill in this field')"></textarea>
+                        <label>Priority:</label>
+                        <select id="largeField" name="Priority" class="rounded-input" required oninvalid="this.setCustomValidity('Please fill in this field')">
+                            <option value="3">High</option>
+                            <option value="2">Standart</option>
+                            <option value="1">Low</option>
+                        </select>
+                    </div>
 
-                    <div class="create-button">
-                        <img src="~/images/createButton.png" alt="create button" />
+                    <div class="right-container">
+                        <label>Description:</label>
+                        <textarea id="largeField" name="Description" class="rounded-input-description"></textarea>
+
+                        <button type="submit" class="btn btn-primary">Create</button>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="alphaCoverage hidden" id="coverageCreateTask" onclick="toggleVisibilityCreateDialog()"></div>
-
+            <div class="alphaCoverage hidden" id="coverageCreateTask" onclick="toggleVisibilityCreateDialog()"></div>
+        </form>
+        
         <div class="additionalInfoAboutTaskTab hidden" id="AdditionalInfoAboutTaskTab">
             <div class="go-back-icon" onclick = "toggleVisibilityAdditionalInfoDialog()">
                 <img src="~/images/back_button.png" alt="Go back button" />
@@ -659,20 +661,20 @@
             <div class="grid-container">
                 <div class="left-container">
                     <label>Name:</label>
-                    <textarea id="largeField" name="largeField" class="rounded-input"></textarea>
+                    <textarea id="taskName" name="Name" class="rounded-input"></textarea>
                     <label>Date:</label>
-                    <textarea id="largeField" name="largeField" class="rounded-input"></textarea>
+                    <textarea id="taskDate" name="Date" class="rounded-input"></textarea>
                     <label>Priority:</label>
-                    <select id="largeField" name="largeField" class="rounded-input">
-                        <option value="value1">High</option>
-                        <option value="value2">Standart</option>
-                        <option value="value3">Low</option>
+                    <select id="taskPriority" name="Priority" class="rounded-input">
+                        <option value="3">High</option>
+                        <option value="2">Standart</option>
+                        <option value="1">Low</option>
                     </select>
                 </div>
 
                 <div class="right-container">
                     <label>Description:</label>
-                    <textarea id="largeField" name="largeField" class="rounded-input-description"></textarea>
+                    <textarea id="taskDescription" name="Description" class="rounded-input-description"></textarea>
                 </div>
             </div>
             <div class="button-container">
@@ -689,6 +691,7 @@
         </div>
         <div class="alphaCoverage hidden" id="coverageAdditionInfo" onclick="toggleVisibilityAdditionalInfoDialog()"></div>
 
+
         <div class="plus-button" onclick = "toggleVisibilityCreateDialog()">
             <img src="~/images/plusButton.png" alt="plus button" />
         </div>
@@ -701,7 +704,7 @@
         <div class="content">
             @foreach (var task in Model)
             {
-                <div class="task-card" onclick="toggleVisibilityAdditionalInfoDialog()">
+                <div class="task-card" onclick="toggleVisibilityAdditionalInfoDialog('@task.Name', '@task.Expectedfinishtime', '@task.Priority', '@task.Description', '@task.Executiontime')">
                     <img class="task-checkbox" src="~/images/task_checkbox.png" />
                     <span class="task-name">@task.Name</span>
                     <span class="task-border">|</span>
@@ -788,7 +791,12 @@
 
         }
 
-        function toggleVisibilityAdditionalInfoDialog() {
+        function toggleVisibilityAdditionalInfoDialog(taskName, taskExpectedFinishtime, taskPriority, taskDescription, taskExecutiontime) {
+            document.getElementById('taskName').value = taskName;
+            document.getElementById('taskDate').value = taskExpectedFinishtime;
+            document.getElementById('taskPriority').value = taskPriority;
+            document.getElementById('taskDescription').value = taskDescription;
+
             var createTaskDialog = document.getElementById('AdditionalInfoAboutTaskTab')
             var coverage = document.getElementById('coverageAdditionInfo');
 
@@ -838,7 +846,6 @@
             weekBtn.style.backgroundColor = '#353535';
             monthBtn.style.backgroundColor = '#7A7373';
         }
-
     </script>
 
 </body>
