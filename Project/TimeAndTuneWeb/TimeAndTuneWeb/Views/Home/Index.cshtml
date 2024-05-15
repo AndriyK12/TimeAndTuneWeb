@@ -164,11 +164,6 @@
             margin-right: 90px;
         }
 
-        .buttons-body .month-button {
-            margin-right: 0;
-            background: #7A7373;
-        }
-
         .navTab {
             position: absolute;
             top: 0;
@@ -546,7 +541,7 @@
     <div>
         <div class="navTab hidden" id="NavTab">
             <div>
-                <a class="navItem" asp-controller="Home" asp-action="Index">
+                <a class="navItem" asp-controller="Home" asp-action="Index" asp-all-route-data='new Dictionary<string, string> { { "period", "month" } }'>
                     <img class="navTabImg" src="~/images/home_image.png" alt="Home Icon" />
                     <span>Home</span>
                 </a>
@@ -724,6 +719,50 @@
     }
     <script>
 
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        function updateButtonStyles() {
+            var period = getUrlParameter('period');
+
+            var dayBtn = document.getElementById('dayBtn');
+            var weekBtn = document.getElementById('weekBtn');
+            var monthBtn = document.getElementById('monthBtn');
+
+            switch (period) {
+                case 'day':
+                    dayBtn.style.backgroundColor = '#7A7373';
+                    weekBtn.style.backgroundColor = '#353535';
+                    monthBtn.style.backgroundColor = '#353535';
+                    break;
+                case 'week':
+                    dayBtn.style.backgroundColor = '#353535';
+                    weekBtn.style.backgroundColor = '#7A7373';
+                    monthBtn.style.backgroundColor = '#353535';
+                    break;
+                case 'month':
+                    dayBtn.style.backgroundColor = '#353535';
+                    weekBtn.style.backgroundColor = '#353535';
+                    monthBtn.style.backgroundColor = '#7A7373';
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        window.onload = function () {
+            updateButtonStyles();
+        };
+
+        function switchPeriod(period) {
+            var url = '@Url.Action("Index", "Home")' + '?period=' + period;
+            window.location.href = url;
+        }
+
         function toggleVisibility() {
             var NavTab = document.getElementById('NavTab');
             var coverage = document.getElementById('coverage');
@@ -810,33 +849,15 @@
         }
 
         function DayTable() {
-            var dayBtn = document.getElementById('dayBtn');
-            var weekBtn = document.getElementById('weekBtn');
-            var monthBtn = document.getElementById('monthBtn');
-
-            dayBtn.style.backgroundColor = '#7A7373';
-            weekBtn.style.backgroundColor = '#353535';
-            monthBtn.style.backgroundColor = '#353535';
+            switchPeriod('day');
         }
 
         function WeekTable() {
-            var dayBtn = document.getElementById('dayBtn');
-            var weekBtn = document.getElementById('weekBtn');
-            var monthBtn = document.getElementById('monthBtn');
-
-            dayBtn.style.backgroundColor = '#353535';
-            weekBtn.style.backgroundColor = '#7A7373';
-            monthBtn.style.backgroundColor = '#353535';
+            switchPeriod('week');
         }
 
         function MonthTable() {
-            var dayBtn = document.getElementById('dayBtn');
-            var weekBtn = document.getElementById('weekBtn');
-            var monthBtn = document.getElementById('monthBtn');
-
-            dayBtn.style.backgroundColor = '#353535';
-            weekBtn.style.backgroundColor = '#353535';
-            monthBtn.style.backgroundColor = '#7A7373';
+            switchPeriod('month');
         }
 
     </script>

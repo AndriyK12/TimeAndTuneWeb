@@ -18,7 +18,7 @@ namespace TimeAndTuneWeb.Controllers
             _taskProvider = taskProvider;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string period = "month")
         {
             Log.Information("Loading HomePage tasks table");
             var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
@@ -35,8 +35,7 @@ namespace TimeAndTuneWeb.Controllers
                 {
                 }
             }
-
-            var tasks = _taskProvider.GetAllTasksByUserID(userId);
+            var tasks = GetTasksByPeriod(period, userId);
             DatabaseUserProvider userService = new DatabaseUserProvider();
             var userEmailClaim = HttpContext.User.FindFirst(ClaimTypes.Email);
             var userEmail = userEmailClaim.Value;
@@ -45,6 +44,31 @@ namespace TimeAndTuneWeb.Controllers
             ViewBag.CoinsAmount = coinsAmount;
 
             return View(tasks);
+        }
+
+        private IEnumerable<EFCore.Task> GetTasksByPeriod(string period, int userId)
+        {
+            List<EFCore.Task> tasks = new List<EFCore.Task>();
+            DatabaseTaskProvider taskService = new DatabaseTaskProvider();
+
+            DateTime startDate, endDate;
+            switch (period.ToLower())
+            {
+                case "week":
+                    tasks = taskService.getAllTasksByWeekUsingUserId(userId);
+                    break;
+                case "month":
+                    tasks = taskService.getAllTasksByMonthUsingUserId(userId);
+                    break;
+                case "day":
+                    tasks = taskService.getAllTasksByDayUsingUserId(userId);
+                    break;
+                default:
+                    tasks = null;
+                    break;
+            }
+
+            return tasks;
         }
 
         public IActionResult Privacy()
