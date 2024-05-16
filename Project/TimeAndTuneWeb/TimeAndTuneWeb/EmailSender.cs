@@ -1,7 +1,7 @@
 ﻿namespace SendingEmails
 {
-    using System.Net.Mail;
     using System.Net;
+    using System.Net.Mail;
     using System.Threading.Tasks;
 
     public class EmailSender : IEmailSender
@@ -14,14 +14,15 @@
             var client = new SmtpClient("smtp-mail.outlook.com", 587)
             {
                 EnableSsl = true,
-                Credentials = new NetworkCredential(mail, pass)
+                Credentials = new NetworkCredential(mail, pass),
             };
 
             return client.SendMailAsync(
-                new MailMessage(from: mail,
-                                to: email,
-                                subject,
-                                message));
+                new MailMessage(
+                    from: mail,
+                    to: email,
+                    subject,
+                    message));
         }
     }
 }

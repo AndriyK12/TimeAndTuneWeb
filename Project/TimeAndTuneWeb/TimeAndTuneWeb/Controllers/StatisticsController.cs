@@ -1,23 +1,24 @@
 ﻿namespace TimeAndTuneWeb.Controllers
 {
-    using EFCore;
+    using System.Security.Claims;
     using EFCore.Service;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Serilog;
-    using System.Security.Claims;
 
+    [Authorize]
     public class StatisticsController : Controller
     {
         private readonly IUserProvider _userProvider;
 
         public StatisticsController(IUserProvider userProvider)
         {
-            _userProvider = userProvider;
+            this._userProvider = userProvider;
         }
 
         public IActionResult Statistics()
         {
-            var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+            var userIdClaim = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
             int userId = -1;
             if (userIdClaim != null)
             {
@@ -27,16 +28,17 @@
                 {
                     userId = int.Parse(userIdValue);
                 }
-                catch (FormatException ex)
+                catch (FormatException)
                 {
                 }
             }
+
             DatabaseUserProvider userService = new DatabaseUserProvider();
-            var userEmailClaim = HttpContext.User.FindFirst(ClaimTypes.Email);
+            var userEmailClaim = this.HttpContext.User.FindFirst(ClaimTypes.Email);
             var userEmail = userEmailClaim.Value;
             var coinsAmount = userService.getCoinsAmount(userService.getUserByEmail(userEmail));
-            ViewBag.Email = userEmail;
-            ViewBag.CoinsAmount = coinsAmount;
+            this.ViewBag.Email = userEmail;
+            this.ViewBag.CoinsAmount = coinsAmount;
 
             // Week chart
             Log.Information("Loading StatisticsPage chart for a week");
@@ -61,8 +63,8 @@
             var weekLabels = dates.Select(date => date.ToString("dd/MM")).ToArray();
             var weekData = tasks;
 
-            ViewBag.WeekDates = weekLabels;
-            ViewBag.WeekCompletedTasks = weekData;
+            this.ViewBag.WeekDates = weekLabels;
+            this.ViewBag.WeekCompletedTasks = weekData;
 
 
             // Month chart
@@ -86,8 +88,8 @@
             var monthLabels = dates.Select(date => date.ToString("dd/MM")).ToArray();
             var monthData = tasks;
 
-            ViewBag.MonthDates = monthLabels;
-            ViewBag.MonthCompletedTasks = monthData;
+            this.ViewBag.MonthDates = monthLabels;
+            this.ViewBag.MonthCompletedTasks = monthData;
 
             // Year chart
             Log.Information("Loading StatisticsPage chart for a year");
@@ -127,10 +129,10 @@
             var yearLabels = monthNames;
             var yearData = tasks;
 
-            ViewBag.YearDates = yearLabels;
-            ViewBag.YearCompletedTasks = yearData;
+            this.ViewBag.YearDates = yearLabels;
+            this.ViewBag.YearCompletedTasks = yearData;
 
-            return View();
+            return this.View();
         }
     }
 }

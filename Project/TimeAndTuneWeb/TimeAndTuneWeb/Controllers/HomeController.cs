@@ -3,10 +3,14 @@ namespace TimeAndTuneWeb.Controllers
     using System.Diagnostics;
     using System.Security.Claims;
     using EFCore.Service;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authentication.Cookies;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Serilog;
     using TimeAndTuneWeb.Models;
 
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -14,14 +18,14 @@ namespace TimeAndTuneWeb.Controllers
 
         public HomeController(ILogger<HomeController> logger, ITaskProvider taskProvider)
         {
-            _logger = logger;
-            _taskProvider = taskProvider;
+            this._logger = logger;
+            this._taskProvider = taskProvider;
         }
 
         public IActionResult Index(string period = "month")
         {
             Log.Information("Loading HomePage tasks table");
-            var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+            var userIdClaim = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
             int userId = -1;
             if (userIdClaim != null)
             {
@@ -31,19 +35,20 @@ namespace TimeAndTuneWeb.Controllers
                 {
                     userId = int.Parse(userIdValue);
                 }
-                catch (FormatException ex)
+                catch (FormatException)
                 {
                 }
             }
-            var tasks = GetTasksByPeriod(period, userId);
+
+            var tasks = this.GetTasksByPeriod(period, userId);
             DatabaseUserProvider userService = new DatabaseUserProvider();
-            var userEmailClaim = HttpContext.User.FindFirst(ClaimTypes.Email);
+            var userEmailClaim = this.HttpContext.User.FindFirst(ClaimTypes.Email);
             var userEmail = userEmailClaim.Value;
             var coinsAmount = userService.getCoinsAmount(userService.getUserByEmail(userEmail));
-            ViewBag.Email = userEmail;
-            ViewBag.CoinsAmount = coinsAmount;
+            this.ViewBag.Email = userEmail;
+            this.ViewBag.CoinsAmount = coinsAmount;
 
-            return View(tasks);
+            return this.View(tasks);
         }
 
         private IEnumerable<EFCore.Task> GetTasksByPeriod(string period, int userId)
@@ -74,6 +79,15 @@ namespace TimeAndTuneWeb.Controllers
         public IActionResult Privacy()
         {
             return this.View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            Log.Information("Logging out from our website");
+            await this.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return this.RedirectToAction("Login", "Account");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
