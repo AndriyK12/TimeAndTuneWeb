@@ -1,5 +1,6 @@
 namespace TimeAndTuneWeb
 {
+    using Microsoft.AspNetCore.Identity.UI.Services;
     using Serilog;
     using Serilog.Events;
 
@@ -10,7 +11,6 @@ namespace TimeAndTuneWeb
             Log.Logger = new LoggerConfiguration()
             .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
             .CreateLogger();
-
 
             try
             {

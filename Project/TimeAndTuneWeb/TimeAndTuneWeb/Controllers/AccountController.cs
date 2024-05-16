@@ -7,16 +7,21 @@ using EFCore;
 using TimeAndTuneWeb.ViewModels;
 using EFCore.Service;
 using Microsoft.EntityFrameworkCore;
+using SendingEmails;
+using Bogus;
 
 namespace TimeAndTuneWeb.Controllers
 {
     public class AccountController : Controller
     {
         private readonly IUserProvider _userProvider;
+        private readonly IEmailSender _emailSender;
 
-        public AccountController(IUserProvider userProvider)
+
+        public AccountController(IUserProvider userProvider, IEmailSender emailSender)
         {
             _userProvider = userProvider;
+            this._emailSender = emailSender;
         }
 
         public IActionResult Index()
@@ -73,6 +78,7 @@ namespace TimeAndTuneWeb.Controllers
                     string hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
                     _userProvider.addNewUser(model.Username, model.Email, hashedPassword);
 
+                    user = _userProvider.getUserByEmail(model.Email);
                     await Authenticate(user);
 
                     var routeValues = new RouteValueDictionary {
@@ -80,6 +86,12 @@ namespace TimeAndTuneWeb.Controllers
                         { "action", "Index" },
                         { "period", "month" }
                     };
+
+                    var receiver = user.Email;
+                    var subject = "Welcome!";
+                    var message = $"Hello, {user.Username}!\nWe are glad to inform you that your registration was successful! Welcome to TimeAndTune!";
+
+                    await _emailSender.SendEmailAsync(receiver, subject, message);
 
                     return RedirectToAction("Index", "Home", routeValues);
                 }
@@ -99,7 +111,34 @@ namespace TimeAndTuneWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
-            return View(model);
+            var user = _userProvider.getUserByEmail(model.Email);
+            if (user.Email == null)
+            {
+                ModelState.AddModelError("", "There's no such user in system.");
+            }
+            else
+            {
+                DatabaseUserProvider userService = new DatabaseUserProvider();
+                var faker = new Faker();
+                string password = faker.Internet.Password(10);
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+                try
+                {
+                    userService.changePassword(user.Userid, hashedPassword);
+                    var receiver = user.Email;
+                    var subject = "Password changed";
+                    var message = $"Hello, {user.Username}!\nYour password was changed to {password}, please don't share it with anyone!";
+
+                    await _emailSender.SendEmailAsync(receiver, subject, message);
+                }
+                catch
+                {
+                    ModelState.AddModelError("", "Error changing password.");
+                }
+
+            }
+
+            return RedirectToAction("Login", "Account");
         }
 
         private async System.Threading.Tasks.Task Authenticate(User user)

@@ -99,5 +99,24 @@
                 context.SaveChanges();
             }
         }
+
+        public void changePassword(int id, string newPassword)
+        {
+            User user = new User();
+            using (var context = new TTContext())
+            {
+                var allUsers = context.Users.ToList();
+                foreach (User u in allUsers)
+                {
+                    if (this.getUserID(u) == id)
+                    {
+                        user = u;
+                    }
+                }
+
+                user.Password = newPassword;
+                context.SaveChanges();
+            }
+        }
     }
 }
