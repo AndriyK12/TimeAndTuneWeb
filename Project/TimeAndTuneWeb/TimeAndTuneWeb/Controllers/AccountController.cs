@@ -89,6 +89,19 @@ namespace TimeAndTuneWeb.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            return View(model);
+        }
+
         private async System.Threading.Tasks.Task Authenticate(User user)
         {
             var claim = new List<Claim>()
