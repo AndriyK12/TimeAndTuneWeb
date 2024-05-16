@@ -2,8 +2,11 @@
 
 namespace TimeAndTuneWeb.ViewModels
 {
-    public class NewTaskViewModel
+    public class UpdateTaskViewModel
     {
+        [Required]
+        public int Id { get; set; }
+
         [Required]
         public string Name { get; set; }
 
