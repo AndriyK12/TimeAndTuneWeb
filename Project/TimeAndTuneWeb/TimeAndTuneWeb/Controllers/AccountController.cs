@@ -10,6 +10,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
     using SendingEmails;
     using Serilog;
     using TimeAndTuneWeb.ViewModels;
@@ -91,11 +92,13 @@
 
                 this.ModelState.AddModelError(string.Empty, "Incorrect login and (or) password");
                 Log.Warning("Incorrect login and (or) password");
+                return this.View(model);
             }
             else
             {
                 this.ModelState.AddModelError(string.Empty, "There's no such user in system.");
                 Log.Warning("There's no such user in system.");
+                return this.View(model);
             }
 
             return this.View(model);
@@ -172,12 +175,14 @@
                 {
                     this.ModelState.AddModelError(string.Empty, "A user with this email address already exists");
                     Log.Warning("A user with this email address already exists");
+                    return this.View(model);
                 }
             }
             else
             {
                 this.ModelState.AddModelError(string.Empty, "A user with this email address already exists");
                 Log.Warning("A user with this email address already exists");
+                return this.View(model);
             }
 
             return this.View(model);
@@ -216,6 +221,7 @@
             {
                 this.ModelState.AddModelError(string.Empty, "There's no such user in system.");
                 Log.Warning("There's no such user in system.");
+                return this.View(model);
             }
             else
             {
@@ -237,7 +243,6 @@
                     this.ModelState.AddModelError(string.Empty, "Error changing password.");
                     Log.Warning("Error changing password.");
                 }
-
             }
 
             return this.RedirectToAction("Login", "Account");
@@ -264,9 +269,44 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> NewPassword(NewPasswordViewModel model)
         {
-            
+            var user = this._userProvider.getUserByEmail(model.Email);
 
-            return this.View(model);
+            if (user.Email == null)
+            {
+                this.ModelState.AddModelError(string.Empty, "There's no such user in system.");
+                return this.View(model);
+            }
+            else
+            {
+                DatabaseUserProvider userService = new DatabaseUserProvider();
+                var password = model.OldPassword;
+                var newPassword = model.Password;
+                var confirmNewPassword = model.ConfirmPassword;
+
+                if (newPassword != confirmNewPassword)
+                {
+                    this.ModelState.AddModelError(string.Empty, "New and confirmation passwords should be equal");
+                    return this.View(model);
+                }
+
+                if (password == newPassword)
+                {
+                    this.ModelState.AddModelError(string.Empty, "Old and new passwords can not be identical!");
+                    return this.View(model);
+                }
+
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(newPassword);
+                try
+                {
+                    userService.changePassword(user.Userid, hashedPassword);
+                }
+                catch
+                {
+                    this.ModelState.AddModelError(string.Empty, "Error changing password.");
+                }
+            }
+
+            return this.RedirectToAction("Login", "Account");
         }
 
         private async System.Threading.Tasks.Task Authenticate(User user)
