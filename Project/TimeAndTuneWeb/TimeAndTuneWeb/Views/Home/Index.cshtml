@@ -445,14 +445,17 @@
             text-align: center;
         }
 
-        .create-button {
+        .btn.btn-primary {
+            width: 151px; 
+            height: 50px; 
+            background-color: #1c4335;
+            border: 2px solid white;
             position: fixed;
             bottom: 0;
             right: 0;
-            width: 151px;
-            height: 50px;
             margin-right: 74px;
             margin-bottom: 40px;
+            cursor: pointer;
         }
 
         .create-button img {
@@ -497,12 +500,43 @@
         }
 
         .button-container {
-            margin-top: -35px;
             display: flex;
-            justify-content: space-between; 
-            align-items: flex-end; 
-            width: 100%; 
-            height: 100px; 
+            justify-content: space-between;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            margin-right: 74px;
+            margin-bottom: 40px;
+        }
+
+        .button-container {
+            position: fixed;
+            bottom: 40px;
+            right: 74px;
+        }
+
+        .btn.btn-primary {
+            width: 151px;
+            height: 50px;
+            background-color: #1c4335;
+            border: 2px solid white;
+            cursor: pointer;
+        }
+
+        .update-btn {
+            position: absolute;
+            left: 100px;
+        }
+
+        .play-btn {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .finish-btn {
+            position: absolute;
+            right: 0;
         }
 
         .button {
@@ -619,82 +653,78 @@
         </div>
         <div class="alphaCoverage hidden" id="coverage1" onclick="toggleVisibility1()"></div>
 
-
-        <div class="createTaskTab hidden" id="CreateTaskTab">
-            <div class="go-back-icon" onclick="toggleVisibilityCreateDialog()">
-                <img src="~/images/back_button.png" alt="Go back button" />
-            </div>
-            <div class="dialog-title-container">
-                <div class="page-title">Create new task</div>
-            </div>
-
-            <div class="grid-container">
-                <div class="left-container">
-                    <label>Name:</label>
-                    <textarea id="largeField" name="largeField" class="rounded-input"></textarea>
-                    <label>Date:</label>
-                    <textarea id="largeField" name="largeField" class="rounded-input"></textarea>
-                    <label>Priority:</label>
-                    <select id="largeField" name="largeField" class="rounded-input">
-                        <option value="value1">High</option>
-                        <option value="value2">Standart</option>
-                        <option value="value3">Low</option>
-                    </select>
+        <form asp-action="AddNewTask" method="post">
+            <div class="createTaskTab hidden" id="CreateTaskTab">
+                <div class="go-back-icon" onclick="toggleVisibilityCreateDialog()">
+                    <img src="~/images/back_button.png" alt="Go back button" />
+                </div>
+                <div class="dialog-title-container">
+                    <div class="page-title">Create new task</div>
                 </div>
 
-                <div class="right-container">
-                    <label>Description:</label>
-                    <textarea id="largeField" name="largeField" class="rounded-input-description"></textarea>
+                <div class="grid-container">
+                    <div class="left-container">
+                        <label>Name:</label>
+                        <textarea id="largeField" name="Name" class="rounded-input" required oninvalid="this.setCustomValidity('Please fill in this field')"></textarea>
+                        <label>Date:</label>
+                        <textarea id="largeField" name="Date" class="rounded-input" required oninvalid="this.setCustomValidity('Please fill in this field')"></textarea>
+                        <label>Priority:</label>
+                        <select id="largeField" name="Priority" class="rounded-input" required oninvalid="this.setCustomValidity('Please fill in this field')">
+                            <option value="3">High</option>
+                            <option value="2">Standart</option>
+                            <option value="1">Low</option>
+                        </select>
+                    </div>
 
-                    <div class="create-button">
-                        <img src="~/images/createButton.png" alt="create button" />
+                    <div class="right-container">
+                        <label>Description:</label>
+                        <textarea id="largeField" name="Description" class="rounded-input-description"></textarea>
+
+                        <button type="submit" class="btn btn-primary">Create</button>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="alphaCoverage hidden" id="coverageCreateTask" onclick="toggleVisibilityCreateDialog()"></div>
+            <div class="alphaCoverage hidden" id="coverageCreateTask" onclick="toggleVisibilityCreateDialog()"></div>
+        </form>
+        
+        <form asp-action="UpdateTask" method="post">
+            <div class="additionalInfoAboutTaskTab hidden" id="AdditionalInfoAboutTaskTab">
+                <div class="go-back-icon" onclick = "toggleVisibilityAdditionalInfoDialog()">
+                    <img src="~/images/back_button.png" alt="Go back button" />
+                </div>
+                <div class="dialog-title-container-additional-info">
+                    <div class="page-title">Additional information</div>
+                </div>
+                <div id="taskExecutiontime" class="timer-text">00:00:00</div>
 
-        <div class="additionalInfoAboutTaskTab hidden" id="AdditionalInfoAboutTaskTab">
-            <div class="go-back-icon" onclick = "toggleVisibilityAdditionalInfoDialog()">
-                <img src="~/images/back_button.png" alt="Go back button" />
-            </div>
-            <div class="dialog-title-container-additional-info">
-                <div class="page-title">Additional information</div>
-            </div>
-            <div class="timer-text">00:00</div>
+                <div class="grid-container">
+                    <div class="left-container">
+                        <input type="hidden" id="taskId" name="Id"/>
+                        <label>Name:</label>
+                        <textarea id="taskName" name="Name" class="rounded-input" required oninvalid="this.setCustomValidity('Please fill in this field')"></textarea>
+                        <label>Date:</label>
+                        <textarea id="taskDate" name="Date" class="rounded-input" required oninvalid="this.setCustomValidity('Please fill in this field')"></textarea>
+                        <label>Priority:</label>
+                        <select id="taskPriority" name="Priority" class="rounded-input" required oninvalid="this.setCustomValidity('Please fill in this field')">
+                            <option value="3">High</option>
+                            <option value="2">Standart</option>
+                            <option value="1">Low</option>
+                        </select>
+                    </div>
 
-            <div class="grid-container">
-                <div class="left-container">
-                    <label>Name:</label>
-                    <textarea id="largeField" name="largeField" class="rounded-input"></textarea>
-                    <label>Date:</label>
-                    <textarea id="largeField" name="largeField" class="rounded-input"></textarea>
-                    <label>Priority:</label>
-                    <select id="largeField" name="largeField" class="rounded-input">
-                        <option value="value1">High</option>
-                        <option value="value2">Standart</option>
-                        <option value="value3">Low</option>
-                    </select>
+                    <div class="right-container">
+                        <label>Description:</label>
+                        <textarea id="taskDescription" name="Description" class="rounded-input-description"></textarea>
+                    </div>
                 </div>
-
-                <div class="right-container">
-                    <label>Description:</label>
-                    <textarea id="largeField" name="largeField" class="rounded-input-description"></textarea>
+                <div class="button-container">
+                    <button type="submit" class="btn btn-primary update-btn">Update</button>
+                    <button id="playButton" class="btn btn-primary play-btn" formaction="/Home/UpdateExecutionTask">Play</button>
+                    <button class="btn btn-primary finish-btn" formaction="/Home/FinishTask">Finish</button>
                 </div>
             </div>
-            <div class="button-container">
-                <div class="button">
-                    <img src="~/images/updateButton.png" alt="update button" />
-                </div>
-                <div class="button central-button">
-                    <img src="~/images/playTimer.png" alt="update button" />
-                </div>
-                <div class="button">
-                    <img src="~/images/finishButton.png" alt="update button" />
-                </div>
-            </div>
-        </div>
-        <div class="alphaCoverage hidden" id="coverageAdditionInfo" onclick="toggleVisibilityAdditionalInfoDialog()"></div>
+            <div class="alphaCoverage hidden" id="coverageAdditionInfo" onclick="toggleVisibilityAdditionalInfoDialog()"></div>
+        </form>
 
         <div class="plus-button" onclick = "toggleVisibilityCreateDialog()">
             <img src="~/images/plusButton.png" alt="plus button" />
@@ -708,7 +738,7 @@
         <div class="content">
             @foreach (var task in Model)
             {
-                <div class="task-card" onclick="toggleVisibilityAdditionalInfoDialog()">
+                <div class="task-card" onclick="toggleVisibilityAdditionalInfoDialog('@task.Taskid', '@task.Name', '@task.Expectedfinishtime', '@task.Priority', '@task.Description', '@task.Executiontime')">
                     <img class="task-checkbox" src="~/images/task_checkbox.png" />
                     <span class="task-name">@task.Name</span>
                     <span class="task-border">|</span>
@@ -730,6 +760,12 @@
         </div>
     }
     <script>
+        // document.addEventListener("DOMContentLoaded", function () {
+            
+        //     var playButton = document.getElementById("playButton");
+           
+        //     playButton.innerText = "Stop";
+        // });
 
         function getUrlParameter(name) {
             name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
@@ -839,16 +875,36 @@
 
         }
 
-        function toggleVisibilityAdditionalInfoDialog() {
-            var createTaskDialog = document.getElementById('AdditionalInfoAboutTaskTab')
+        function toggleVisibilityAdditionalInfoDialog(taskId, taskName, taskExpectedFinishtime, taskPriority, taskDescription, taskExecutiontime) {
+            var AdditionalInfoDialog = document.getElementById('AdditionalInfoAboutTaskTab')
             var coverage = document.getElementById('coverageAdditionInfo');
 
-            if (createTaskDialog.classList.contains('hidden')) {
-                createTaskDialog.classList.remove('hidden');
-                createTaskDialog.classList.add('visible');
+            if (AdditionalInfoDialog.classList.contains('hidden')) {
+                AdditionalInfoDialog.classList.remove('hidden');
+                AdditionalInfoDialog.classList.add('visible');
+
+                document.getElementById('taskId').value = taskId;
+                document.getElementById('taskName').value = taskName;
+                document.getElementById('taskDate').value = taskExpectedFinishtime;
+                document.getElementById('taskPriority').value = taskPriority;
+                document.getElementById('taskDescription').value = taskDescription;
+                document.getElementById('taskExecutiontime').textContent = taskExecutiontime.split('.')[0];
+
+                var playButton = document.getElementById('playButton');
+
+                var cookies = document.cookie.split(';');
+                var tasksInfoCookie = cookies.find(function (cookie) {
+                    return cookie.trim().startsWith('TasksInfo' + taskId);
+                });
+
+                if (tasksInfoCookie) {
+                    playButton.textContent = 'Stop';
+                } else {
+                    playButton.textContent = 'Start';
+                }
             } else {
-                createTaskDialog.classList.remove('visible');
-                createTaskDialog.classList.add('hidden');
+                AdditionalInfoDialog.classList.remove('visible');
+                AdditionalInfoDialog.classList.add('hidden');
             }
 
             if (coverage.classList.contains('hidden')) {
@@ -871,7 +927,6 @@
         function MonthTable() {
             switchPeriod('month');
         }
-
     </script>
 
 </body>
