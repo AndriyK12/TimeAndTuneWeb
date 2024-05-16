@@ -266,7 +266,7 @@
     <div>
         <div class="navTab hidden" id="NavTab">
             <div>
-                <a class="navItem" asp-controller="Home" asp-action="Index">
+                <a class="navItem" asp-controller="Home" asp-action="Index" asp-all-route-data='new Dictionary<string, string> { { "period", "month" } }'>
                     <img class="navTabImg" src="~/images/home_image.png" alt="Home Icon" />
                     <span>Home</span>
                 </a>
@@ -303,15 +303,15 @@
 
         <div class="userTab hidden" id="UserTab">
             <div class="top_elements">
-                <span class="username">Username</span>
+                <span class="username">@User.Identity.Name</span>
                 <img class="user-icon-in-tab" src="~/images/user_image.png" alt="User Icon" />
             </div>
             <div>
                 <img class="coins-image" src="~/images/coins_image.png" alt="Coins Icon" />
-                <span class="coins-text">142</span>
+                <span class="coins-text">@ViewBag.CoinsAmount</span>
             </div>
             <div class="email_div">
-                <span class="email">example@gmail.com</span>
+                <span class="email">@ViewBag.Email</span>
             </div>
             <div class="exit-block">
                 <img class="exit-image" src="~/images/exit_image.png" alt="Coins Icon" />

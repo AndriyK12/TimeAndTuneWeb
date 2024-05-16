@@ -1,4 +1,4 @@
-﻿// <copyright file="RegisterViewModel.cs" company="PlaceholderCompany">
+﻿// <copyright file="NewPasswordViewModel.cs" company="PlaceholderCompany">
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
@@ -6,12 +6,17 @@ namespace TimeAndTuneWeb.ViewModels
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class RegisterViewModel
+    public class NewPasswordViewModel
     {
         [Required]
-        [EmailAddress]
+        [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Old password")]
+        public string OldPassword { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -22,9 +27,5 @@ namespace TimeAndTuneWeb.ViewModels
         [Display(Name = "Confirm Password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
-
-        [Required]
-        [Display(Name = "Name")]
-        public string Username { get; set; }
     }
 }

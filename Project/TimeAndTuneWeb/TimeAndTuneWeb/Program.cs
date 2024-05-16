@@ -1,7 +1,6 @@
 namespace TimeAndTuneWeb
 {
     using Serilog;
-    using Serilog.Events;
 
     public class Program
     {
@@ -10,7 +9,6 @@ namespace TimeAndTuneWeb
             Log.Logger = new LoggerConfiguration()
             .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Day)
             .CreateLogger();
-
 
             try
             {

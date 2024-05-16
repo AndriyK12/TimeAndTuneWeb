@@ -7,6 +7,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using SendingEmails;
     using Serilog;
 
     public class Startup(IConfiguration configuration)
@@ -17,6 +18,7 @@
         {
             services.AddTransient<IUserProvider, DatabaseUserProvider>();
             services.AddTransient<ITaskProvider, DatabaseTaskProvider>();
+            services.AddTransient<SendingEmails.IEmailSender, EmailSender>();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
@@ -54,7 +56,6 @@
                     name: "default",
                     pattern: "{controller=Account}/{action=Login}");
             });
-
 
             Log.Information("Starting application");
         }
