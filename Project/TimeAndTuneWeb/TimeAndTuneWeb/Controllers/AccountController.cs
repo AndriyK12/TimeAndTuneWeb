@@ -1,120 +1,131 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using EFCore;
-using TimeAndTuneWeb.ViewModels;
-using EFCore.Service;
-using Microsoft.EntityFrameworkCore;
-using SendingEmails;
-using Bogus;
-
-namespace TimeAndTuneWeb.Controllers
+﻿namespace TimeAndTuneWeb.Controllers
 {
+    using System.Security.Claims;
+    using Bogus;
+    using EFCore;
+    using EFCore.Service;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authentication.Cookies;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using SendingEmails;
+    using TimeAndTuneWeb.ViewModels;
+
     public class AccountController : Controller
     {
         private readonly IUserProvider _userProvider;
         private readonly IEmailSender _emailSender;
+        private readonly ILogger<HomeController> _logger;
 
 
-        public AccountController(IUserProvider userProvider, IEmailSender emailSender)
+        public AccountController(IUserProvider userProvider, IEmailSender emailSender, ILogger<HomeController> logger)
         {
-            _userProvider = userProvider;
+            this._userProvider = userProvider;
             this._emailSender = emailSender;
+            this._logger = logger;
         }
 
         public IActionResult Index()
         {
-            return View();
+            return this.View();
         }
 
         [HttpGet]
         public IActionResult Login()
         {
-            return View();
+            return this.View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (_userProvider.isUserAlreadyExist(model.Email))
+            if (this._userProvider.isUserAlreadyExist(model.Email))
             {
-                var user = _userProvider.getUserByEmail(model.Email);
+                var user = this._userProvider.getUserByEmail(model.Email);
                 if (user != null && BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
                 {
-                    await Authenticate(user);
+                    await this.Authenticate(user);
                     var routeValues = new RouteValueDictionary {
                         { "controller", "Home" },
                         { "action", "Index" },
-                        { "period", "month" }
+                        { "period", "month" },
                     };
 
-                    return RedirectToAction("Index", "Home", routeValues);
+                    return this.RedirectToAction("Index", "Home", routeValues);
                 }
 
-                ModelState.AddModelError("", "Incorrect login and (or) password");
+                this.ModelState.AddModelError(string.Empty, "Incorrect login and (or) password");
+            }
+            else
+            {
+                this.ModelState.AddModelError(string.Empty, "There's no such user in system.");
             }
 
-            return View(model);
+            return this.View(model);
         }
 
         [HttpGet]
         public IActionResult Register()
         {
-            return View();
+            return this.View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (!_userProvider.isUserAlreadyExist(model.Email))
+            if (!this._userProvider.isUserAlreadyExist(model.Email))
             {
-                var user = _userProvider.getUserByEmail(model.Email);
+                var user = this._userProvider.getUserByEmail(model.Email);
                 if (user.Email == null)
                 {
                     string hashedPassword = BCrypt.Net.BCrypt.HashPassword(model.Password);
-                    _userProvider.addNewUser(model.Username, model.Email, hashedPassword);
+                    this._userProvider.addNewUser(model.Username, model.Email, hashedPassword);
 
-                    user = _userProvider.getUserByEmail(model.Email);
-                    await Authenticate(user);
+                    user = this._userProvider.getUserByEmail(model.Email);
+                    await this.Authenticate(user);
 
                     var routeValues = new RouteValueDictionary {
                         { "controller", "Home" },
                         { "action", "Index" },
-                        { "period", "month" }
+                        { "period", "month" },
                     };
 
                     var receiver = user.Email;
                     var subject = "Welcome!";
                     var message = $"Hello, {user.Username}!\nWe are glad to inform you that your registration was successful! Welcome to TimeAndTune!";
 
-                    await _emailSender.SendEmailAsync(receiver, subject, message);
+                    await this._emailSender.SendEmailAsync(receiver, subject, message);
 
-                    return RedirectToAction("Index", "Home", routeValues);
+                    return this.RedirectToAction("Index", "Home", routeValues);
                 }
-
-                ModelState.AddModelError("", "A user with this email address already exists");
+                else
+                {
+                    this.ModelState.AddModelError(string.Empty, "A user with this email address already exists");
+                }
             }
-            return View(model);
+            else
+            {
+                this.ModelState.AddModelError(string.Empty, "A user with this email address already exists");
+            }
+            return this.View(model);
         }
 
         [HttpGet]
         public IActionResult ForgotPassword()
         {
-            return View();
+            return this.View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
-            var user = _userProvider.getUserByEmail(model.Email);
+            var user = this._userProvider.getUserByEmail(model.Email);
             if (user.Email == null)
             {
-                ModelState.AddModelError("", "There's no such user in system.");
+                this.ModelState.AddModelError(string.Empty, "There's no such user in system.");
             }
             else
             {
@@ -129,16 +140,31 @@ namespace TimeAndTuneWeb.Controllers
                     var subject = "Password changed";
                     var message = $"Hello, {user.Username}!\nYour password was changed to {password}, please don't share it with anyone!";
 
-                    await _emailSender.SendEmailAsync(receiver, subject, message);
+                    await this._emailSender.SendEmailAsync(receiver, subject, message);
                 }
                 catch
                 {
-                    ModelState.AddModelError("", "Error changing password.");
+                    this.ModelState.AddModelError(string.Empty, "Error changing password.");
                 }
 
             }
 
-            return RedirectToAction("Login", "Account");
+            return this.RedirectToAction("Login", "Account");
+        }
+
+        [HttpGet]
+        public IActionResult NewPassword()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> NewPassword(NewPasswordViewModel model)
+        {
+            
+
+            return this.View(model);
         }
 
         private async System.Threading.Tasks.Task Authenticate(User user)
@@ -147,7 +173,7 @@ namespace TimeAndTuneWeb.Controllers
             {
             new Claim(ClaimsIdentity.DefaultNameClaimType, user.Username),
             new Claim(ClaimTypes.NameIdentifier, user.Userid.ToString()),
-            new Claim(ClaimTypes.Email, user.Email)
+            new Claim(ClaimTypes.Email, user.Email),
             };
 
             var claimsIdentity = new ClaimsIdentity(claim, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -163,7 +189,7 @@ namespace TimeAndTuneWeb.Controllers
             };
 
             //await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-            await HttpContext.SignInAsync(
+            await this.HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties
@@ -174,9 +200,8 @@ namespace TimeAndTuneWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Account");
+            await this.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return this.RedirectToAction("Login", "Account");
         }
     }
-    
 }

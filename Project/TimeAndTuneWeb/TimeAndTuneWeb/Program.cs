@@ -1,8 +1,6 @@
 namespace TimeAndTuneWeb
 {
-    using Microsoft.AspNetCore.Identity.UI.Services;
     using Serilog;
-    using Serilog.Events;
 
     public class Program
     {

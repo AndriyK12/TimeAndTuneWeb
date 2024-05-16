@@ -1,32 +1,37 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using EFCore;
-using EFCore.Service;
+﻿// <copyright file="UserController.cs" company="PlaceholderCompany">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
 
 namespace TimeAndTuneWeb.Controllers
 {
+    using EFCore.Service;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
+    [Authorize]
     public class UserController : Controller
     {
         private readonly IUserProvider _userProvider;
 
         public UserController(IUserProvider userProvider)
         {
-            _userProvider = userProvider;
+            this._userProvider = userProvider;
         }
 
         public IActionResult Index()
         {
-            return View();
+            return this.View();
         }
 
         public IActionResult Details(string email)
         {
-            var user = _userProvider.getUserByEmail("johndoe@example.com");
+            var user = this._userProvider.getUserByEmail("johndoe@example.com");
             if (user == null)
             {
-                return NotFound();
+                return this.NotFound();
             }
 
-            return View(user);
+            return this.View(user);
         }
 
         //// GET: User/Create
