@@ -1,15 +1,18 @@
 ﻿namespace TimeAndTuneWeb.Controllers
 {
     using System.Security.Claims;
+    using System.Text.RegularExpressions;
     using Bogus;
     using EFCore;
     using EFCore.Service;
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
     using SendingEmails;
+    using Serilog;
     using TimeAndTuneWeb.ViewModels;
 
     public class AccountController : Controller
@@ -31,9 +34,28 @@
             return this.View();
         }
 
+        public static bool IsEmail(string input)
+        {
+            string pattern = @"^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$";
+            Regex regex = new Regex(pattern);
+            return regex.IsMatch(input);
+        }
+
+
         [HttpGet]
         public IActionResult Login()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                var routeValues = new RouteValueDictionary {
+                        { "controller", "Home" },
+                        { "action", "Index" },
+                        { "period", "month" },
+                    };
+
+                return this.RedirectToAction("Index", "Home", routeValues);
+            }
+
             return this.View();
         }
 
@@ -41,6 +63,18 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+            if (string.IsNullOrWhiteSpace(model.Email) && string.IsNullOrWhiteSpace(model.Password))
+            {
+                return this.View(model);
+            }
+
+            if (!IsEmail(model.Email))
+            {
+                this.ModelState.AddModelError(string.Empty, "Please enter valid email.");
+                Log.Warning("Were entered a value that is nat an email");
+                return this.View(model);
+            }
+
             if (this._userProvider.isUserAlreadyExist(model.Email))
             {
                 var user = this._userProvider.getUserByEmail(model.Email);
@@ -52,16 +86,18 @@
                         { "action", "Index" },
                         { "period", "month" },
                     };
-
+                    Log.Information("Logging in");
                     return this.RedirectToAction("Index", "Home", routeValues);
                 }
 
                 this.ModelState.AddModelError(string.Empty, "Incorrect login and (or) password");
+                Log.Warning("Incorrect login and (or) password");
                 return this.View(model);
             }
             else
             {
                 this.ModelState.AddModelError(string.Empty, "There's no such user in system.");
+                Log.Warning("There's no such user in system.");
                 return this.View(model);
             }
 
@@ -71,6 +107,17 @@
         [HttpGet]
         public IActionResult Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                var routeValues = new RouteValueDictionary {
+                        { "controller", "Home" },
+                        { "action", "Index" },
+                        { "period", "month" },
+                    };
+
+                return this.RedirectToAction("Index", "Home", routeValues);
+            }
+
             return this.View();
         }
 
@@ -78,6 +125,24 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
+            if (string.IsNullOrWhiteSpace(model.Email) && string.IsNullOrWhiteSpace(model.Username) && string.IsNullOrWhiteSpace(model.Password) && string.IsNullOrWhiteSpace(model.ConfirmPassword))
+            {
+                return this.View(model);
+            }
+
+            if (!IsEmail(model.Email))
+            {
+                this.ModelState.AddModelError(string.Empty, "Please enter valid email.");
+                Log.Warning("Were entered a value that is nat an email");
+                return this.View(model);
+            }
+
+            if (model.Password != model.ConfirmPassword)
+            {
+                this.ModelState.AddModelError(string.Empty, "Passwords do not match!");
+                return this.View(model);
+            }
+
             if (!this._userProvider.isUserAlreadyExist(model.Email))
             {
                 var user = this._userProvider.getUserByEmail(model.Email);
@@ -99,27 +164,44 @@
                     var subject = "Welcome!";
                     var message = $"Hello, {user.Username}!\nWe are glad to inform you that your registration was successful! Welcome to TimeAndTune!";
 
+                    Log.Information("Sending greetings");
                     await this._emailSender.SendEmailAsync(receiver, subject, message);
+                    Log.Information("Greetings were sent");
 
+                    Log.Information("Registered successfully");
                     return this.RedirectToAction("Index", "Home", routeValues);
                 }
                 else
                 {
                     this.ModelState.AddModelError(string.Empty, "A user with this email address already exists");
+                    Log.Warning("A user with this email address already exists");
                     return this.View(model);
                 }
             }
             else
             {
                 this.ModelState.AddModelError(string.Empty, "A user with this email address already exists");
+                Log.Warning("A user with this email address already exists");
                 return this.View(model);
             }
+
             return this.View(model);
         }
 
         [HttpGet]
         public IActionResult ForgotPassword()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                var routeValues = new RouteValueDictionary {
+                        { "controller", "Home" },
+                        { "action", "Index" },
+                        { "period", "month" },
+                    };
+
+                return this.RedirectToAction("Index", "Home", routeValues);
+            }
+
             return this.View();
         }
 
@@ -127,10 +209,18 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
+            if (!IsEmail(model.Email))
+            {
+                this.ModelState.AddModelError(string.Empty, "Please enter valid email.");
+                Log.Warning("Were entered a value that is nat an email");
+                return this.View(model);
+            }
+
             var user = this._userProvider.getUserByEmail(model.Email);
             if (user.Email == null)
             {
                 this.ModelState.AddModelError(string.Empty, "There's no such user in system.");
+                Log.Warning("There's no such user in system.");
                 return this.View(model);
             }
             else
@@ -151,6 +241,7 @@
                 catch
                 {
                     this.ModelState.AddModelError(string.Empty, "Error changing password.");
+                    Log.Warning("Error changing password.");
                 }
             }
 
@@ -160,6 +251,17 @@
         [HttpGet]
         public IActionResult NewPassword()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                var routeValues = new RouteValueDictionary {
+                        { "controller", "Home" },
+                        { "action", "Index" },
+                        { "period", "month" },
+                    };
+
+                return this.RedirectToAction("Index", "Home", routeValues);
+            }
+
             return this.View();
         }
 
