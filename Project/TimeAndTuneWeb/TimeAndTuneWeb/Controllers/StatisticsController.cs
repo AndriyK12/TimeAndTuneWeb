@@ -16,6 +16,7 @@
             this._userProvider = userProvider;
         }
 
+        [Authorize]
         public IActionResult Statistics()
         {
             var userIdClaim = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);

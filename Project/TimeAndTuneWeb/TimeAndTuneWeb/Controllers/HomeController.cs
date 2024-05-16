@@ -22,6 +22,7 @@ namespace TimeAndTuneWeb.Controllers
             this._taskProvider = taskProvider;
         }
 
+        [Authorize]
         public IActionResult Index(string period = "month")
         {
             Log.Information("Loading HomePage tasks table");
@@ -51,6 +52,7 @@ namespace TimeAndTuneWeb.Controllers
             return this.View(tasks);
         }
 
+        [Authorize]
         private IEnumerable<EFCore.Task> GetTasksByPeriod(string period, int userId)
         {
             List<EFCore.Task> tasks = new List<EFCore.Task>();
@@ -76,6 +78,7 @@ namespace TimeAndTuneWeb.Controllers
             return tasks;
         }
 
+        [Authorize]
         public IActionResult Privacy()
         {
             return this.View();

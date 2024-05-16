@@ -12,6 +12,7 @@ namespace TimeAndTuneWeb.Controllers
     [Authorize]
     public class FocusController : Controller
     {
+        [Authorize]
         public IActionResult Focus()
         {
             var userIdClaim = this.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);

@@ -57,7 +57,6 @@
                     pattern: "{controller=Account}/{action=Login}");
             });
 
-
             Log.Information("Starting application");
         }
 
