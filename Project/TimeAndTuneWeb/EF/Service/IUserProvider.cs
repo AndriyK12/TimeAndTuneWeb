@@ -19,5 +19,7 @@
         void addNewUser(string username, string email, string password);
 
         void addCoinsForAUserById(int id, int coinsAmount);
+
+        void changePassword(int id, string newPassword);
     }
 }
