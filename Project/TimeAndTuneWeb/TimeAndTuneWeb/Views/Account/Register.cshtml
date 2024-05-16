@@ -4,32 +4,168 @@
     ViewData["Title"] = "Register";
 }
 
-<h2>@ViewData["Title"]</h2>
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Register" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Username"></label>
-                <input asp-for="Username" class="form-control" />
-                <span asp-validation-for="Username" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password"></label>
-                <input asp-for="Password" type="password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger" placeholder="8+ characters"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ConfirmPassword"></label>
-                <input asp-for="ConfirmPassword" type="password" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger" placeholder="8+ characters"></span>
-            </div>
-            <button type="submit" class="btn btn-primary">Register</button>
-        </form>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+    <style>
+        body {
+            background-color: #25232A;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 60px;
+            margin-bottom: 60px;
+        }
+
+        .page-title-container {
+            width: 240px;
+            height: 80px;
+            background: rgba(137, 26, 26, 0);
+            box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+            border-radius: 12px;
+            border: 5px solid #5FA6E7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .page-title {
+            font-size: 30px;
+            color: white;
+            margin-left: 10px;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 15px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: left;
+            margin-left: 350px;
+            margin-bottom: 5px;
+        }
+
+        .form-control {
+            background-color: #A6A3A3;
+            color: black;
+            width: 35%;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-group {
+            margin-bottom: 48px;
+        }
+
+        .form-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 200px;
+            margin: 0 auto;
+            max-width: 1000px;
+        }
+
+        .left-column,
+        .right-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+            .left-column label,
+            .right-column label {
+                margin-left: 10px;
+            }
+
+            .left-column .form-control,
+            .right-column .form-control {
+                width: 100%;
+            }
+
+
+        .btn-primary {
+            background-color: #1C4335;
+            border: 2px solid white;
+            width: 150px;
+            height: 50px;
+            font-size: 20px;
+            margin-top: 45px;
+            margin-left: 570px;
+        }
+
+
+        a {
+            color: white;
+        }
+
+        .have-acc {
+            font-size: 20px;
+            position: relative;
+            top: 5px;
+            left: 520px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .have-acc a {
+            display: inline-block;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+
+        <div class="page-title-container">
+            <div class="page-title">Sign In</div>
+        </div>
+
     </div>
-</div>
+
+    <form asp-action="Register" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-column">
+            <div class="left-column">
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Username"></label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="right-column">
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" type="password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger" placeholder="8+ characters"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword"></label>
+                    <input asp-for="ConfirmPassword" type="password" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger" placeholder="8+ characters"></span>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+        <div class="have-acc">
+            <a asp-area="" asp-controller="Account" asp-action="Login">Already have an account?</a>
+        </div>
+    </form>
+
+</body>
+</html>
