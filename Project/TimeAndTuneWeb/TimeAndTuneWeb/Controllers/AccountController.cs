@@ -57,10 +57,12 @@
                 }
 
                 this.ModelState.AddModelError(string.Empty, "Incorrect login and (or) password");
+                return this.View(model);
             }
             else
             {
                 this.ModelState.AddModelError(string.Empty, "There's no such user in system.");
+                return this.View(model);
             }
 
             return this.View(model);
@@ -104,11 +106,13 @@
                 else
                 {
                     this.ModelState.AddModelError(string.Empty, "A user with this email address already exists");
+                    return this.View(model);
                 }
             }
             else
             {
                 this.ModelState.AddModelError(string.Empty, "A user with this email address already exists");
+                return this.View(model);
             }
             return this.View(model);
         }
