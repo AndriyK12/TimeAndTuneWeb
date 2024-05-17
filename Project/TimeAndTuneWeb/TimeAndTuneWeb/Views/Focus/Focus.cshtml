@@ -405,6 +405,13 @@
             font-size: 28px;
             margin-left: 0.5rem;
         }
+
+        .exit-block button {
+            background-color: inherit;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -459,10 +466,14 @@
             <div class="email_div">
                 <span class="email">@ViewBag.Email</span>
             </div>
-            <div class="exit-block">
-                <img class="exit-image" src="~/images/exit_image.png" alt="Coins Icon" />
-                <span class="exit-text">Exit</span>
-            </div>
+            <form asp-controller="Account" asp-action="Logout" method="post">
+                <div class="exit-block">
+                    <button type="submit">
+                        <img class="exit-image" src="~/images/exit_image.png" alt="Exit Icon" />
+                        <span class="exit-text">Exit</span>
+                    </button>
+                </div>
+            </form>
         </div>
         <div class="alphaCoverage hidden" id="coverage1" onclick="toggleVisibility1()"></div>
     </div>
