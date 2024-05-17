@@ -189,7 +189,7 @@ namespace TimeAndTuneWeb.Controllers
             }
 
             DatabaseUserProvider userProvider = new DatabaseUserProvider();
-            userProvider.addCoinsForAUserById(currentId, (10 + hoursSpent));
+            userProvider.addCoinsForAUserById((int)currentTask.Useridref, (10 + hoursSpent));
 
             return RedirectToAction("Index", "Home");
         }
